@@ -1,0 +1,3 @@
+Action        KEYWORD1
+isTimed       KEYWORD2
+getPercentage KEYWORD2
