@@ -1,0 +1,41 @@
+<ui 
+	title="Robo detector"
+	closeable="true" 
+	on-close="close" 
+	resizable="false"
+	style="
+		background-image: url('&imagemRobo');
+		background-repeat: no-repeat;
+		background-attachment: fixed;
+		background-position: center;
+		background-size: cover;"
+	>
+	<group layout="vbox" flat="true" style="background-image: url('');">
+		<label text="Controles"/>
+		<group layout="vbox" >
+			<group layout="hbox" flat="true" >
+				<button id="106" text="⇖" style="font-size: 36px; max-width: 64px; max-height: 64px;" on-click="btnClick" />
+				<button id="101" text="▲" style="font-size: 28px; max-width: 64px; max-height: 64px;" on-click="btnClick" />
+				<button id="107" text="⇗" style="font-size: 36px; max-width: 64px; max-height: 64px;" on-click="btnClick" />
+			</group>     
+			<group layout="hbox" flat="true" >
+				<button id="102" text="◄" style="font-size: 28px; max-width: 64px; max-height: 64px;" on-click="btnClick" />
+				<button id="103" text="█" style="font-size: 18px; max-width: 64px; max-height: 64px;" on-click="btnClick" />
+				<button id="104" text="►" style="font-size: 28px; max-width: 64px; max-height: 64px;" on-click="btnClick" />
+			</group> 	
+			<group layout="hbox" flat="true" >
+				<button id="108" text="⇙" style="font-size: 36px; max-width: 64px; max-height: 64px;" on-click="btnClick" />
+				<button id="105" text="▼" style="font-size: 28px; max-width: 64px; max-height: 64px;" on-click="btnClick" />
+				<button id="109" text="⇘" style="font-size: 36px; max-width: 64px; max-height: 64px;" on-click="btnClick" />
+			</group> 
+		</group>
+		<group layout="vbox" flat="true">
+			<label text="Velocidade"/>
+			<group layout="hbox" >
+				<label text="-" />
+				<hslider id="110" tick-interval="1" minimum="30" maximum="360" on-change="handleVelocitySiderChanged" />
+				<label text="+" />
+			</group>
+		</group>  		
+	</group>
+</ui> 
