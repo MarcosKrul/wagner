@@ -18,16 +18,11 @@ void Wagner::random_decision_side() {
 	this->direction = -1;
 }
 
-void Wagner::write(int action_index) {
-	if (action_index < 0 || action_index >= this->actions_length) {
-		Serial.println("ERROR Wagner::write(int,byte,byte) -> index out of range: action_index");
-		return;
-	}
-
+void Wagner::write(Action* action) {
 	byte vcc, gnd, percentage;
 
 	for (int i=0 ; i<this->motors_length ; i++) {
-		percentage = this->actions[action_index].getPercentage(i);
+		percentage = action->getPercentage(i);
 
 		if (percentage == 0) {
 			vcc = LOW;
@@ -59,26 +54,26 @@ void Wagner::drive(long ultrasonic_value, int action_index) {
 		if (!this->recalculating_route) {
 			this->last_millis_stopped = millis();
 			this->last_millis_walking = this->last_millis_stopped + CONST_CN_BLOCKED_TIME_IN_MS;
-			this->write(ACTION_STOP);
+			this->write(&this->actions[ACTION_STOP]);
 			this->random_decision_side();
 			this->recalculating_route = true;
 		}
 	}
 
 	if (this->recalculating_route && (millis() - this->last_millis_stopped) >= CONST_CN_BLOCKED_TIME_IN_MS) {
-		this->write(this->decision);
+		this->write(&this->actions[this->decision]);
 
 		if ((millis() - this->last_millis_walking) >= CONST_CN_WALKING_TIME_IN_MS) {
-			this->write(ACTION_STOP);
+			this->write(&this->actions[ACTION_STOP]);
 
 			if ((millis() - this->last_millis_stopped) >= 2 * CONST_CN_BLOCKED_TIME_IN_MS + CONST_CN_WALKING_TIME_IN_MS) {
-				this->write(ACTION_WALK_FORWARD);
+				this->write(&this->actions[ACTION_WALK_FORWARD]);
 				this->recalculating_route = false;
 			}
 		}
 	}
 	
 	if (!this->recalculating_route) {
-		this->write(action_index != -1? action_index : ACTION_WALK_FORWARD);
+		this->write(&this->actions[action_index != -1? action_index : ACTION_WALK_FORWARD]);
 	}
 }

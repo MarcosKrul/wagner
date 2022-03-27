@@ -31,7 +31,7 @@ private:
 	unsigned long last_millis_walking;
 
 	void random_decision_side();
-	void write(int);
+	void write(Action*);
 
 public:
 	Wagner(unsigned int,Motor*,unsigned int,Action*);
