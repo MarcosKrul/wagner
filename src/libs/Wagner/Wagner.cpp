@@ -4,6 +4,7 @@
 Wagner::Wagner(unsigned int lm, Motor* motors, unsigned int la, Action* actions) {
 	this->recalculating_route = false;
 	this->direction = 1;
+	this->decision = -1;
 
 	this->motors = motors;
 	this->motors_length = lm;
@@ -13,7 +14,7 @@ Wagner::Wagner(unsigned int lm, Motor* motors, unsigned int la, Action* actions)
 }
 
 void Wagner::random_decision_side() {
-	long r = random(7, 8);
+	this->decision = random(7, 9);
 	this->direction = -1;
 }
 
@@ -51,4 +52,39 @@ void Wagner::write(int motor_index, int action_index) {
 		this->motors[motor_index].getPinSpeedControl(), 
 		CONST_MAX_SPEED_VALUE * this->direction * percentage/100
 	);
+}
+
+void Wagner::write_in_all_motors(int action_index) {
+	for (int i=0 ; i<this->motors_length ; i++) 
+		this->write(i, action_index);
+}
+
+void Wagner::drive(long ultrasonic_value, int action_index) {
+	
+	if (ultrasonic_value <= CONST_CN_MAX_DISTANCE) {
+		if (!this->recalculating_route) {
+			this->last_millis_stopped = millis();
+			this->last_millis_walking = this->last_millis_stopped + CONST_CN_BLOCKED_TIME_IN_MS;
+			this->write_in_all_motors(ACTION_STOP);
+			this->random_decision_side();
+			this->recalculating_route = true;
+		}
+	}
+
+	if (this->recalculating_route && (millis() - this->last_millis_stopped) >= CONST_CN_BLOCKED_TIME_IN_MS) {
+		this->write_in_all_motors(this->decision);
+
+		if ((millis() - this->last_millis_walking) >= CONST_CN_WALKING_TIME_IN_MS) {
+			this->write_in_all_motors(ACTION_STOP);
+
+			if ((millis() - this->last_millis_stopped) >= 2 * CONST_CN_BLOCKED_TIME_IN_MS + CONST_CN_WALKING_TIME_IN_MS) {
+				this->write_in_all_motors(ACTION_WALK_FORWARD);
+				this->recalculating_route = false;
+			}
+		}
+	}
+	
+	if (!this->recalculating_route) {
+		this->write_in_all_motors(action_index != -1? action_index : ACTION_WALK_FORWARD);
+	}
 }
