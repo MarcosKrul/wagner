@@ -1,0 +1,3 @@
+Music          KEYWORD1
+getNote        KEYWORD2
+getNotesLength KEYWORD2

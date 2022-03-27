@@ -1,0 +1,3 @@
+MusicalNote         KEYWORD1
+getDuration         KEYWORD2
+getFrequency        KEYWORD2
