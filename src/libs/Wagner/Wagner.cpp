@@ -42,7 +42,7 @@ void Wagner::write(Action* action) {
 		
 		analogWrite(
 			this->motors[i].getPinSpeedControl(), 
-			CONST_MAX_SPEED_VALUE * this->direction * percentage/100
+			CONST_MAX_SPEED_VALUE * ((float)percentage/100)
 		);
 	}
 
@@ -50,30 +50,28 @@ void Wagner::write(Action* action) {
 
 void Wagner::drive(long ultrasonic_value, int action_index) {
 	
-	if (ultrasonic_value <= CONST_CN_MAX_DISTANCE) {
-		if (!this->recalculating_route) {
-			this->last_millis_stopped = millis();
-			this->last_millis_walking = this->last_millis_stopped + CONST_CN_BLOCKED_TIME_IN_MS;
-			this->write(&this->actions[ACTION_STOP]);
-			this->random_decision_side();
-			this->recalculating_route = true;
-		}
+	if (ultrasonic_value <= CONST_CN_MAX_DISTANCE && !this->recalculating_route) {
+		this->write(&this->actions[ACTION_STOP]);
+		this->last_millis = millis();
+		this->random_decision_side();
+		this->recalculating_route = true;
 	}
 
-	if (this->recalculating_route && (millis() - this->last_millis_stopped) >= CONST_CN_BLOCKED_TIME_IN_MS) {
-		this->write(&this->actions[this->decision]);
-
-		if ((millis() - this->last_millis_walking) >= CONST_CN_WALKING_TIME_IN_MS) {
-			this->write(&this->actions[ACTION_STOP]);
-
-			if ((millis() - this->last_millis_stopped) >= 2 * CONST_CN_BLOCKED_TIME_IN_MS + CONST_CN_WALKING_TIME_IN_MS) {
-				this->write(&this->actions[ACTION_WALK_FORWARD]);
-				this->recalculating_route = false;
+	if (this->recalculating_route) {
+		if ((millis() - this->last_millis) >= CONST_CN_BLOCKED_TIME_IN_MS) {
+			this->write(&this->actions[this->decision]);
+		
+			if ((millis() - this->last_millis) >= CONST_CN_BLOCKED_TIME_IN_MS + CONST_CN_WALKING_TIME_IN_MS) {
+				this->write(&this->actions[ACTION_STOP]);
+				
+				if ((millis() - this->last_millis) >= 2 * CONST_CN_BLOCKED_TIME_IN_MS + CONST_CN_WALKING_TIME_IN_MS) {
+					this->write(&this->actions[ACTION_WALK_FORWARD]);
+					this->direction = 1;
+					this->recalculating_route = false;
+				}
 			}
 		}
-	}
-	
-	if (!this->recalculating_route) {
+	} else {
 		this->write(&this->actions[action_index != -1? action_index : ACTION_WALK_FORWARD]);
 	}
 }

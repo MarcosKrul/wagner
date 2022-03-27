@@ -27,8 +27,7 @@ private:
 	
 	int decision;
 	bool recalculating_route;
-	unsigned long last_millis_stopped;
-	unsigned long last_millis_walking;
+	unsigned long last_millis;
 
 	void random_decision_side();
 	void write(Action*);
