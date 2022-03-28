@@ -1,5 +1,5 @@
-#ifndef PC_H
-#define PC_H
+#ifndef WAGNER_H
+#define WAGNER_H
 
 #include <Motor.h>
 #include <Action.h>
@@ -22,16 +22,19 @@ private:
 	Motor *motors;
 	unsigned int motors_length;
 	Action *default_actions;
+	Action *current_action;
+	bool current_action_changed;
 	int decision;
 	bool recalculating_route;
 	unsigned long last_millis;
 
 	void random_decision_side();
-	void write(Action*);
+	void write();
+	void setCurrentAction(Action*);
 
 public:
 	Wagner(unsigned int,Motor*);
-	void drive(long,int action_index = -1);
+	void drive(long);
 
 };
 
