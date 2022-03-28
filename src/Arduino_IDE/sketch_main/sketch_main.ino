@@ -3,7 +3,6 @@
 #include <Wagner.h>
 
 #define QNT_MOTORS 2
-#define QNT_ACTIONS 9
 
 #define ULTRASONIC_TRIGGER_PIN 4
 #define ULTRASONIC_ECHO_PIN 5
@@ -29,18 +28,6 @@ Wagner wagner = Wagner(
 	new Motor[QNT_MOTORS] {
 		Motor(MOTOR_01_VCC_PIN, MOTOR_01_GND_PIN, MOTOR_01_PWM_PIN),
 		Motor(MOTOR_02_VCC_PIN, MOTOR_02_GND_PIN, MOTOR_02_PWM_PIN)
-	},
-	QNT_ACTIONS, 
-	new Action[QNT_ACTIONS] {
-		Action(QNT_MOTORS, new byte[QNT_MOTORS] {0,0}),
-		Action(QNT_MOTORS, new byte[QNT_MOTORS] {100,100}),
-		Action(QNT_MOTORS, new byte[QNT_MOTORS] {100,100}),
-		Action(QNT_MOTORS, new byte[QNT_MOTORS] {0,100}),
-		Action(QNT_MOTORS, new byte[QNT_MOTORS] {100,0}),
-		Action(QNT_MOTORS, new byte[QNT_MOTORS] {20,100}),
-		Action(QNT_MOTORS, new byte[QNT_MOTORS] {100,20}),
-		Action(QNT_MOTORS, new byte[QNT_MOTORS] {20,100}),
-		Action(QNT_MOTORS, new byte[QNT_MOTORS] {100,20})
 	}
 );
 
@@ -56,6 +43,8 @@ void loop() {
 	Serial.print("LOG loop -> distance_in_cm == ");
 	Serial.print(distance_in_cm);
 	Serial.println("cm");
+
+	wagner.drive(distance_in_cm);
 
 	delay(50);
 }

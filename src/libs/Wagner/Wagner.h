@@ -7,6 +7,7 @@
 
 #define ACTION_STOP 0
 #define ACTION_WALK_FORWARD 1
+#define QNT_DEFAULT_ACTIONS 9
 
 #define CONST_MAX_SPEED_VALUE 1023
 #define CONST_CN_MAX_DISTANCE 15.0
@@ -18,13 +19,9 @@ class Wagner {
 
 private:
 	int direction; 
-
 	Motor *motors;
 	unsigned int motors_length;
-
-	Action *actions;
-	unsigned int actions_length;
-	
+	Action *default_actions;
 	int decision;
 	bool recalculating_route;
 	unsigned long last_millis;
@@ -33,7 +30,7 @@ private:
 	void write(Action*);
 
 public:
-	Wagner(unsigned int,Motor*,unsigned int,Action*);
+	Wagner(unsigned int,Motor*);
 	void drive(long,int action_index = -1);
 
 };

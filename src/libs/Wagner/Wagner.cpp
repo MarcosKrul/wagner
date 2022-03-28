@@ -1,7 +1,7 @@
 #include "Wagner.h"
 
 
-Wagner::Wagner(unsigned int lm, Motor* motors, unsigned int la, Action* actions) {
+Wagner::Wagner(unsigned int lm, Motor* motors) {
 	this->recalculating_route = false;
 	this->direction = 1;
 	this->decision = -1;
@@ -9,8 +9,17 @@ Wagner::Wagner(unsigned int lm, Motor* motors, unsigned int la, Action* actions)
 	this->motors = motors;
 	this->motors_length = lm;
 
-	this->actions = actions;
-	this->actions_length = la;
+	this->default_actions = new Action[QNT_DEFAULT_ACTIONS] {
+		Action(lm, new byte[lm] {0,0}),
+		Action(lm, new byte[lm] {100,100}),
+		Action(lm, new byte[lm] {100,100}),
+		Action(lm, new byte[lm] {0,100}),
+		Action(lm, new byte[lm] {100,0}),
+		Action(lm, new byte[lm] {20,100}),
+		Action(lm, new byte[lm] {100,20}),
+		Action(lm, new byte[lm] {20,100}),
+		Action(lm, new byte[lm] {100,20})
+	}
 }
 
 void Wagner::random_decision_side() {
@@ -51,7 +60,7 @@ void Wagner::write(Action* action) {
 void Wagner::drive(long ultrasonic_value, int action_index) {
 	
 	if (ultrasonic_value <= CONST_CN_MAX_DISTANCE && !this->recalculating_route) {
-		this->write(&this->actions[ACTION_STOP]);
+		this->write(&this->default_actions[ACTION_STOP]);
 		this->last_millis = millis();
 		this->random_decision_side();
 		this->recalculating_route = true;
@@ -59,19 +68,19 @@ void Wagner::drive(long ultrasonic_value, int action_index) {
 
 	if (this->recalculating_route) {
 		if ((millis() - this->last_millis) >= CONST_CN_BLOCKED_TIME_IN_MS) {
-			this->write(&this->actions[this->decision]);
+			this->write(&this->default_actions[this->decision]);
 		
 			if ((millis() - this->last_millis) >= CONST_CN_BLOCKED_TIME_IN_MS + CONST_CN_WALKING_TIME_IN_MS) {
-				this->write(&this->actions[ACTION_STOP]);
+				this->write(&this->default_actions[ACTION_STOP]);
 				
 				if ((millis() - this->last_millis) >= 2 * CONST_CN_BLOCKED_TIME_IN_MS + CONST_CN_WALKING_TIME_IN_MS) {
-					this->write(&this->actions[ACTION_WALK_FORWARD]);
+					this->write(&this->default_actions[ACTION_WALK_FORWARD]);
 					this->direction = 1;
 					this->recalculating_route = false;
 				}
 			}
 		}
 	} else {
-		this->write(&this->actions[action_index != -1? action_index : ACTION_WALK_FORWARD]);
+		this->write(&this->default_actions[action_index != -1? action_index : ACTION_WALK_FORWARD]);
 	}
 }
