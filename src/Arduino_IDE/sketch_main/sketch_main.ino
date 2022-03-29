@@ -38,13 +38,16 @@ void setup() {
 
 void loop() {
 
+/*
 	float distance_in_cm = ultrasonic.getCurrentValue();
 
 	Serial.print("LOG loop -> distance_in_cm == ");
 	Serial.print(distance_in_cm);
 	Serial.println("cm");
+*/
 
-	wagner.drive(distance_in_cm);
+	wagner.handleProtocolStringChanged("1#204");
+	wagner.drive(100.0);
 
 	delay(50);
 }

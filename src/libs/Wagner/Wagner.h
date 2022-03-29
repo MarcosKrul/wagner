@@ -35,6 +35,7 @@ private:
 public:
 	Wagner(unsigned int,Motor*);
 	void drive(long);
+	void handleProtocolStringChanged(String);
 
 };
 

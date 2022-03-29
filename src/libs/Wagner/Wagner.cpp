@@ -24,6 +24,14 @@ Wagner::Wagner(unsigned int lm, Motor* motors) {
 	this->setCurrentAction(&this->default_actions[ACTION_WALK_FORWARD]);
 }
 
+void Wagner::handleProtocolStringChanged(String value) {
+	// manipular string recebida por webservice/mqtt/bluetooth
+	// gerar um index para o vetor de actions default
+
+	byte index = 0;
+	this->setCurrentAction(&this->default_actions[index]);
+}
+
 void Wagner::setCurrentAction(Action* action)  {
 	this->current_action_changed = true;
 	this->current_action = action;
