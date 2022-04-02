@@ -1,0 +1,120 @@
+robo:
+  language: pt_BR
+  manual: 1
+  voice:
+    enabled: 1
+    value:
+      Maria: 0
+      Daniel: 1
+  init: Olá, meu nome é {}! Por favor, informe o comando.
+  invalid: Desculpe, mas não foi possível executar este comando.
+  warning: Desculpe, mas é necessário informar o nome do robô para executar um comando!
+  name:
+    - vagner
+    - Vagner
+    - Wagner
+    - wagner
+    - robô
+    - Robô
+    - robo
+    - Robo
+exit:
+  speech: Finalizando a utilização. {} fica feliz em ser útil.
+  control:
+    - desligar
+    - dormir
+    - sair
+speed:  
+  minimum:
+    speech: O limite inferior de velocidade foi atingido.
+    value: 30
+  maximum:
+    speech: O limite superior de velocidade foi atingido.
+    value: 360
+  adjust: 
+    speech: Ajustando a velocidade para os limites.
+  command:
+    slow: 
+      speech: Diminuindo a velocidade
+      control:
+        - diminuir
+        - devagar
+      value: -30
+    quick: 
+      speech: Aumentando a velocidade
+      control:
+        - aumentar
+        - rápido
+        - rapido
+      value: 30
+command:
+  voice:
+    speech: Ativando controle por voz
+    control:
+      - voz
+      - vóz
+      - acorde
+      - acordar
+    value: -1
+  manual:
+    speech: Ativando controle manual
+    control:
+      - manual
+    value: -2    
+  front:
+    speech: Seguindo em frente
+    control:
+      - ir
+      - frente
+    value: 1
+  left:
+    speech: Virando a esquerda
+    control:
+      - esquerda
+    value: 2
+  stop:
+    speech: Parando o robô
+    control:
+      - parar
+      - pare
+      - freiar
+      - freie
+      - estacionar
+      - estacione
+    value: 3
+  right:
+    speech: Virando a direita
+    control:
+      - direita
+    value: 4
+  rear:
+    speech: Seguindo para trás
+    control:
+      - voltar
+      - volte
+      - ré
+    value: 5
+  q1:
+    speech: Seguindo para a direita
+    control:
+      - nordeste
+      - Nordeste
+    value: 7
+  q2:
+    speech: Seguindo para a esquerda
+    control:
+      - noroeste
+      - Noroeste
+    value: 6
+  q3:
+    speech: Voltando para a esquerda
+    control:
+      - sudoeste
+      - Sudoeste
+    value: 8
+  q4: 
+    speech: Voltando para a direita
+    control:
+      - sudeste
+      - Sudeste
+    value: 9
