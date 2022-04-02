@@ -1,0 +1,4 @@
+Bluetooth      KEYWORD1
+disable        KEYWORD2
+available      KEYWORD2
+getCurrentByte KEYWORD2
