@@ -5,9 +5,17 @@
 #include <Action.h>
 #include <Arduino.h>
 
+#define UART_START_MARKER '<'
+#define UART_END_MARKER '>'
+#define UART_PROTOCOL_STRING_LENGTH 7
+#define UART_PROTOCOL_STRING_DELIMITER '#'
+#define UART_PROTOCOL_STRING_CURRENT_DIRECTION "CR"
+
+#define CONVERT_CODE_TO_ID(code) ((code/2)-101)
+
 #define ACTION_STOP 0
 #define ACTION_WALK_FORWARD 1
-#define QNT_DEFAULT_ACTIONS 9
+#define QNT_DEFAULT_ACTIONS 6
 
 #define CONST_MAX_SPEED_VALUE 1023
 #define CONST_CN_MAX_DISTANCE 15.0
@@ -36,6 +44,7 @@ public:
 	Wagner(unsigned int,Motor*);
 	void drive(long);
 	void handleProtocolStringChanged(String);
+	void handleUARTByteReceived(byte);
 
 };
 

@@ -12,24 +12,67 @@ Wagner::Wagner(unsigned int lm, Motor* motors) {
 	this->default_actions = new Action[QNT_DEFAULT_ACTIONS] {
 		Action(lm, new byte[lm] {0,0}),
 		Action(lm, new byte[lm] {100,100}),
-		Action(lm, new byte[lm] {100,100}),
 		Action(lm, new byte[lm] {0,100}),
 		Action(lm, new byte[lm] {100,0}),
-		Action(lm, new byte[lm] {20,100}),
-		Action(lm, new byte[lm] {100,20}),
-		Action(lm, new byte[lm] {20,100}),
-		Action(lm, new byte[lm] {100,20})
-	}
+		Action(lm, new byte[lm] {60,100}),
+		Action(lm, new byte[lm] {100,60})
+	};
 
 	this->setCurrentAction(&this->default_actions[ACTION_WALK_FORWARD]);
 }
 
-void Wagner::handleProtocolStringChanged(String value) {
-	// manipular string recebida por webservice/mqtt/bluetooth
-	// gerar um index para o vetor de actions default
+void Wagner::handleUARTByteReceived(byte received) {
+	static bool inProgress = false;
+	static char received_chars[UART_PROTOCOL_STRING_LENGTH];
+	static byte index = 0;
 
-	byte index = 0;
-	this->setCurrentAction(&this->default_actions[index]);
+	if (inProgress) {
+		if (received != UART_END_MARKER) {
+			received_chars[index] = received;
+			if ((++index) >= UART_PROTOCOL_STRING_LENGTH) {
+				index = UART_PROTOCOL_STRING_LENGTH - 1;
+			}
+		} else {
+			received_chars[index] = '\0';
+			inProgress = false;
+			index = 0;
+
+			this->handleProtocolStringChanged(received_chars);
+		}
+	} else if (received == UART_START_MARKER) {
+		inProgress = true;
+	}
+}
+
+void Wagner::handleProtocolStringChanged(String value) {
+	if (value.indexOf(UART_PROTOCOL_STRING_DELIMITER) == -1) {
+		Serial.println("ERROR -> void Wagner::handleProtocolStringChanged(String): invalid protocol string");
+		return;
+	}
+
+	String direction = value.substring(0, value.indexOf(UART_PROTOCOL_STRING_DELIMITER));
+	if (direction.length() == 1 || direction.length() == 2) {
+		if (direction.indexOf(UART_PROTOCOL_STRING_CURRENT_DIRECTION) == -1) {
+			this->direction = direction.toInt();
+		}
+	} else {
+		Serial.println("ERROR -> void Wagner::handleProtocolStringChanged(String): invalid direction");
+		return;
+	}
+
+	String code = value.substring(value.indexOf(UART_PROTOCOL_STRING_DELIMITER)+1, value.length());
+	if (code.length() == 3) {
+		int index = CONVERT_CODE_TO_ID(code.toInt());
+		if (index < 0 || index >= QNT_DEFAULT_ACTIONS) {
+			Serial.println("ERROR -> void Wagner::handleProtocolStringChanged(String): index out of range");
+			return;
+		}
+
+		this->setCurrentAction(&this->default_actions[index]);
+	} else {
+		Serial.println("ERROR -> void Wagner::handleProtocolStringChanged(String): invalid cod");
+		return;
+	}
 }
 
 void Wagner::setCurrentAction(Action* action)  {
@@ -38,7 +81,7 @@ void Wagner::setCurrentAction(Action* action)  {
 }
 
 void Wagner::random_decision_side() {
-	this->decision = random(7, 9);
+	this->decision = random(4, 6);
 	this->direction = -1;
 }
 

@@ -1,6 +1,7 @@
 #include <Motor.h>
 #include <Ultrasonic.h>
 #include <Wagner.h>
+#include <Bluetooth.h>
 
 #define QNT_MOTORS 2
 
@@ -15,11 +16,14 @@
 #define MOTOR_02_GND_PIN 12
 #define MOTOR_02_PWM_PIN 0
 
+#define BLUETOOTH_RX 4
+#define BLUETOOTH_TX 5
 
 
 /*
 	GLOBALS OBJECTS/VARS
 */
+Bluetooth bluetooth = Bluetooth(BLUETOOTH_RX, BLUETOOTH_TX);
 Ultrasonic ultrasonic = Ultrasonic(
 	ULTRASONIC_TRIGGER_PIN, ULTRASONIC_ECHO_PIN
 );
@@ -46,7 +50,10 @@ void loop() {
 	Serial.println("cm");
 */
 
-	wagner.handleProtocolStringChanged("1#204");
+	if (bluetooth.available()) {
+		wagner.handleUARTByteReceived(bluetooth.getCurrentByte());
+	}
+
 	wagner.drive(100.0);
 
 	delay(50);

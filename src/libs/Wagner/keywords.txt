@@ -1,3 +1,4 @@
 Wagner                      KEYWORD1
 drive                       KEYWORD2
+handleUARTByteReceived      KEYWORD2
 handleProtocolStringChanged KEYWORD2
