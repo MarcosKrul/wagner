@@ -5,6 +5,8 @@
 #include <Action.h>
 #include <Arduino.h>
 
+#define UART_METHODS_NUMBER 1
+#define UART_BLUETOOTH_ID 0
 #define UART_START_MARKER '<'
 #define UART_END_MARKER '>'
 #define UART_PROTOCOL_STRING_LENGTH 7
@@ -44,7 +46,7 @@ public:
 	Wagner(unsigned int,Motor*);
 	void drive(long);
 	void handleProtocolStringChanged(String);
-	void handleUARTByteReceived(byte);
+	void handleUARTByteReceived(byte,byte);
 
 };
 

@@ -51,7 +51,7 @@ void loop() {
 */
 
 	if (bluetooth.available()) {
-		wagner.handleUARTByteReceived(bluetooth.getCurrentByte());
+		wagner.handleUARTByteReceived(UART_BLUETOOTH_ID, bluetooth.getCurrentByte());
 	}
 
 	wagner.drive(100.0);

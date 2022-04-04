@@ -21,19 +21,24 @@ Wagner::Wagner(unsigned int lm, Motor* motors) {
 	this->setCurrentAction(&this->default_actions[ACTION_WALK_FORWARD]);
 }
 
-void Wagner::handleUARTByteReceived(byte received) {
+void Wagner::handleUARTByteReceived(byte uart_id, byte received) {
+	if (uart_id < 0 || uart_id >= UART_METHODS_NUMBER) {
+		Serial.println("ERROR -> void Wagner::handleUARTByteReceived(byte,byte): uart_id out of range");
+		return;
+	}
+
 	static bool inProgress = false;
-	static char received_chars[UART_PROTOCOL_STRING_LENGTH];
+	static char received_chars[UART_METHODS_NUMBER][UART_PROTOCOL_STRING_LENGTH];
 	static byte index = 0;
 
 	if (inProgress) {
 		if (received != UART_END_MARKER) {
-			received_chars[index] = received;
+			received_chars[uart_id][index] = received;
 			if ((++index) >= UART_PROTOCOL_STRING_LENGTH) {
 				index = UART_PROTOCOL_STRING_LENGTH - 1;
 			}
 		} else {
-			received_chars[index] = '\0';
+			received_chars[uart_id][index] = '\0';
 			inProgress = false;
 			index = 0;
 
