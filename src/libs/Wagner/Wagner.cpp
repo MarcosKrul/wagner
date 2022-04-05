@@ -42,7 +42,7 @@ void Wagner::handleUARTByteReceived(byte uart_id, byte received) {
 			inProgress = false;
 			index = 0;
 
-			this->handleProtocolStringChanged(received_chars);
+			this->handleProtocolStringChanged(received_chars[uart_id]);
 		}
 	} else if (received == UART_START_MARKER) {
 		inProgress = true;
