@@ -50,6 +50,7 @@ private:
 	void random_decision_side();
 	void write();
 	void setCurrentAction(Action*);
+	void retryReconnection();
 	void resetReconnectionAttempts();
 
 public:
@@ -61,7 +62,6 @@ public:
 	void drive(long);
 	void handleProtocolStringChanged(String);
 	void handleUARTByteReceived(byte,byte);
-	void retryReconnection();
 	void reconnectWifi();
 
 };

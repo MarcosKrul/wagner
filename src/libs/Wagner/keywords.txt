@@ -2,7 +2,6 @@ Wagner                      KEYWORD1
 wifiConnected               KEYWORD2
 printWifiStatus             KEYWORD2
 reconnectWifi               KEYWORD2
-retryReconnection           KEYWORD2
 getMacAddress               KEYWORD2
 getLocalIP                  KEYWORD2
 drive                       KEYWORD2
