@@ -41,6 +41,9 @@ interface MqttContextData {
   onMessage(
     topic_: string, payload: Buffer, packet: Packet
   ): void;
+  configureBroker(
+    config: MqttProps
+  ): void
   clientMqtt: MqttClient;
   payload: Buffer
 }
@@ -58,7 +61,7 @@ interface MqttProviderProps {
 const MqttContext = createContext<MqttContextData>({} as MqttContextData)
 
 export const MqttProvider = ({ children, mqttProps }: MqttProviderProps): JSX.Element => {
-  const [clientMqtt,] = useState<MqttClient>(() =>
+  const [clientMqtt, setClientMqtt] = useState<MqttClient>(() =>
     mqtt.connect(mqttProps.brokerUrl, mqttProps.options)
   )
   const [payload, setPayload] = useState<Buffer>()
@@ -74,6 +77,11 @@ export const MqttProvider = ({ children, mqttProps }: MqttProviderProps): JSX.El
 
     clientMqtt.on('error', (err) => {
       console.error('Connection error: ', err)
+      clientMqtt.end()
+    })
+
+    clientMqtt.on('end', () => {
+      console.log('Connection Ended')
       clientMqtt.end()
     })
 
@@ -124,6 +132,11 @@ export const MqttProvider = ({ children, mqttProps }: MqttProviderProps): JSX.El
     setPayload(payload)
   }
 
+  const configureBroker = (config: MqttProps): void => {
+    clientMqtt.end(true)
+    setClientMqtt(() => mqtt.connect(config.brokerUrl, config.options))
+  }
+
   return (
     <MqttContext.Provider
       value={{
@@ -132,6 +145,7 @@ export const MqttProvider = ({ children, mqttProps }: MqttProviderProps): JSX.El
         unsubscribe,
         onMessage,
         clientMqtt,
+        configureBroker,
         payload: payload as Buffer,
       }}
     >
