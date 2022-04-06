@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { View, ActivityIndicator, Text, StyleSheet } from 'react-native'
 import { IClientOptions } from '@taoqf/react-native-mqtt';
 import { MqttProvider } from '../hooks/mqtt';
-import App from '../App';
 import { colors } from '../global/colors';
+import AppRoutes from './app.routes';
 
 const mqttProps: { brokerUrl: string, options: IClientOptions } = {
   brokerUrl: 'ws://broker.hivemq.com:8000/mqtt',
@@ -48,7 +48,7 @@ const Routes = (): JSX.Element => {
 
   return (
     <MqttProvider mqttProps={mqttProps}>
-      <App />
+      <AppRoutes />
     </MqttProvider>
   )
 };
