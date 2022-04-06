@@ -27,6 +27,19 @@ bool Wagner::wifiConnected() {
 	return (WiFi.status() == WL_CONNECTED);
 }
 
+void Wagner::printWifiStatus() {
+	static unsigned long lmillis = millis();
+	
+	if ((millis() - lmillis) >= CONST_PRINT_WIFI_STATUS_IN_MS) {
+		Serial.println("=====================================");
+		Serial.print("Status da conexão wi-fi: ");
+		Serial.println(this->wifiConnected()? "CONECTADO" : "DESCONECTADO");
+		Serial.println("=====================================");
+		
+		lmillis = millis();
+	}
+}
+
 IPAddress Wagner::getLocalIP() {
 	return (WiFi.localIP());
 }
