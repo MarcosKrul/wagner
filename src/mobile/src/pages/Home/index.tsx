@@ -6,9 +6,12 @@ import { StackAppParams } from '../../routes/app.routes';
 import { styles } from './styles';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors } from '../../global/colors';
+import { useMqtt } from '../../hooks/mqtt';
 
 const Home = (): JSX.Element => {
+  const { status } = useMqtt()
   const navigation = useNavigation<NavigationProp<StackAppParams>>()
 
   return (
@@ -20,6 +23,11 @@ const Home = (): JSX.Element => {
         >
           <MaterialIcons name='music-note' size={35} color={colors.aliceBlue} />
         </TouchableOpacity>
+        {
+          status 
+            ? <Ionicons name='cloud-done' size={35} color={colors.green} />
+            : <Ionicons name='cloud-offline' size={35} color={colors.red} />
+        }
         <TouchableOpacity
           activeOpacity={.6}
           onPress={() => navigation.navigate('Config', {})}
@@ -29,19 +37,64 @@ const Home = (): JSX.Element => {
       </View>
       <View style={styles.content}>
         <View style={styles.topButtons}>
-          <MaterialIcons name='keyboard-arrow-up' style={{ transform: [{ rotateZ: '-45deg' }] }} size={150} color={colors.aliceBlue} />
-          <MaterialIcons name='keyboard-arrow-up' size={150} color={colors.aliceBlue} />
-          <MaterialIcons name='keyboard-arrow-up' style={{ transform: [{ rotateZ: '45deg' }] }} size={150} color={colors.aliceBlue} />
+          <TouchableOpacity
+            activeOpacity={.6}
+            onPress={() => {}}
+          >
+            <MaterialIcons name='keyboard-arrow-up' style={{ transform: [{ rotateZ: '-45deg' }] }} size={150} color={colors.aliceBlue} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={.6}
+            onPress={() => {}}
+          >
+            <MaterialIcons name='keyboard-arrow-up' size={150} color={colors.aliceBlue} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={.6}
+            onPress={() => {}}
+          >
+            <MaterialIcons name='keyboard-arrow-up' style={{ transform: [{ rotateZ: '45deg' }] }} size={150} color={colors.aliceBlue} />
+          </TouchableOpacity>
         </View>
         <View style={styles.middleButtons}>
-          <MaterialIcons name='keyboard-arrow-left' size={150} color={colors.aliceBlue} />
-          <MaterialIcons name='crop-square' size={110} style={{ paddingTop: 20 }} color={colors.aliceBlue} />
-          <MaterialIcons name='keyboard-arrow-right' size={150} color={colors.aliceBlue} />
+          <TouchableOpacity
+            activeOpacity={.6}
+            onPress={() => {}}
+          >
+            <MaterialIcons name='keyboard-arrow-left' size={150} color={colors.aliceBlue} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={.6}
+            onPress={() => {}}
+          >
+            <MaterialIcons name='crop-square' size={110} style={{ paddingTop: 20 }} color={colors.aliceBlue} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={.6}
+            onPress={() => {}}
+          >
+            <MaterialIcons name='keyboard-arrow-right' size={150} color={colors.aliceBlue} />
+          </TouchableOpacity>
         </View>
         <View style={styles.bottomButtons}>
-          <MaterialIcons name='keyboard-arrow-left' style={{ transform: [{ rotateZ: '-45deg' }] }} size={150} color={colors.aliceBlue} />
-          <MaterialIcons name='keyboard-arrow-down' size={150} color={colors.aliceBlue} />
-          <MaterialIcons name='keyboard-arrow-right' style={{ transform: [{ rotateZ: '45deg' }] }} size={150} color={colors.aliceBlue} />
+          <TouchableOpacity
+            activeOpacity={.6}
+            onPress={() => {}}
+          >
+            <MaterialIcons name='keyboard-arrow-left' style={{ transform: [{ rotateZ: '-45deg' }] }} size={150} color={colors.aliceBlue} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={.6}
+            onPress={() => {}}
+          >
+            <MaterialIcons name='keyboard-arrow-down' size={150} color={colors.aliceBlue} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={.6}
+            onPress={() => {}}
+          >
+            <MaterialIcons name='keyboard-arrow-right' style={{ transform: [{ rotateZ: '45deg' }] }} size={150} color={colors.aliceBlue} />
+          </TouchableOpacity>
         </View>
 
         <View>

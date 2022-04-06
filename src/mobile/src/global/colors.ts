@@ -4,4 +4,6 @@ export const colors = {
   cgBlue: '#247BA0',
   carolinaBlue: '#1B98E0',
   aliceBlue: '#E8F1F2',
+  green: '#22B383',
+  red: '#844040'
 }
