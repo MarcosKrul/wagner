@@ -1,12 +1,13 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 
-const App = (): JSX.Element => {
+const Config = (): JSX.Element => {
+
   return (
     <View>
-      <Text>Olá</Text>
+      <Text>Config</Text>
     </View>
-  );
-};
+  )
+}
 
-export default App;
+export default Config;
