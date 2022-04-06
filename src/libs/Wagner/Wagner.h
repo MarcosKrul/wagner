@@ -4,10 +4,6 @@
 #include <Motor.h>
 #include <Action.h>
 #include <Arduino.h>
-#include <ESP8266WiFi.h>
-
-#define WIFI_SSID "SSID_HERE"
-#define WIFI_PASSWORD "PASSWORD_HERE"
 
 #define UART_METHODS_NUMBER 1
 #define UART_BLUETOOTH_ID 0
@@ -27,10 +23,6 @@
 #define CONST_CN_MAX_DISTANCE 15.0
 #define CONST_CN_BLOCKED_TIME_IN_MS 2000
 #define CONST_CN_WALKING_TIME_IN_MS 2000
-#define CONST_PRINT_WIFI_STATUS_IN_MS 3000
-#define CONST_WIFI_RECONNECT_ATTEMPTS 5
-#define CONST_WAITING_TO_RETRY_RECONNECT_IN_MS 2000
-#define CONST_RETRY_RECONNECT_IN_MS 120000
 
 
 class Wagner {
@@ -45,24 +37,17 @@ private:
 	int decision;
 	bool recalculating_route;
 	unsigned long last_millis;
-	int wifi_reconnection_attempts;
 
 	void random_decision_side();
 	void write();
 	void setCurrentAction(Action*);
-	void retryReconnection();
 	void resetReconnectionAttempts();
 
 public:
 	Wagner(unsigned int,Motor*);
-	bool wifiConnected();
-	String getMacAddress();
-	IPAddress getLocalIP();
-	void printWifiStatus();
 	void drive(long);
 	void handleProtocolStringChanged(String);
 	void handleUARTByteReceived(byte,byte);
-	void reconnectWifi();
 
 };
 

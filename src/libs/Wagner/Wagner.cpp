@@ -5,7 +5,6 @@ Wagner::Wagner(unsigned int lm, Motor* motors) {
 	this->recalculating_route = false;
 	this->direction = 1;
 	this->decision = -1;
-	this->wifi_reconnection_attempts = 0;
 
 	this->motors = motors;
 	this->motors_length = lm;
@@ -20,65 +19,6 @@ Wagner::Wagner(unsigned int lm, Motor* motors) {
 	};
 
 	this->setCurrentAction(&this->default_actions[ACTION_WALK_FORWARD]);
-
-	WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
-}
-
-void Wagner::reconnectWifi() {
-	static unsigned long lmillis = millis();
-
-	if (this->wifiConnected()) {
-		this->wifi_reconnection_attempts = 0;
-		return;
-	}
-
-	if (this->wifi_reconnection_attempts >= CONST_WIFI_RECONNECT_ATTEMPTS) {
-		return this->retryReconnection();
-	}
-	
-	if ((millis() - lmillis) >= CONST_WAITING_TO_RETRY_RECONNECT_IN_MS) {
-		WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
-		this->wifi_reconnection_attempts++;
-		lmillis = millis();
-	}
-}
-
-void Wagner::retryReconnection() {
-	static unsigned long lmillis = millis();
-
-	if ((millis() - lmillis) >= CONST_RETRY_RECONNECT_IN_MS) {
-		this->resetReconnectionAttempts();
-		lmillis = millis();
-	}
-}
-
-void Wagner::resetReconnectionAttempts() {
-	this->wifi_reconnection_attempts = 0;
-}
-
-bool Wagner::wifiConnected() {
-	return (WiFi.status() == WL_CONNECTED);
-}
-
-void Wagner::printWifiStatus() {
-	static unsigned long lmillis = millis();
-	
-	if ((millis() - lmillis) >= CONST_PRINT_WIFI_STATUS_IN_MS) {
-		Serial.println("=====================================");
-		Serial.print("Status da conexão wi-fi: ");
-		Serial.println(this->wifiConnected()? "CONECTADO" : "DESCONECTADO");
-		Serial.println("=====================================");
-		
-		lmillis = millis();
-	}
-}
-
-IPAddress Wagner::getLocalIP() {
-	return (WiFi.localIP());
-}
-
-String Wagner::getMacAddress() {
-	return (WiFi.macAddress());
 }
 
 void Wagner::handleUARTByteReceived(byte uart_id, byte received) {

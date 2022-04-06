@@ -2,6 +2,7 @@
 #include <Ultrasonic.h>
 #include <Wagner.h>
 #include <Bluetooth.h>
+#include <WagFi.h>
 
 #define QNT_MOTORS 2
 
@@ -19,10 +20,14 @@
 #define BLUETOOTH_RX 4
 #define BLUETOOTH_TX 5
 
+#define WIFI_SSID "SSID_HERE"
+#define WIFI_PASSWORD "PASSWORD_HERE"
+
 
 /*
 	GLOBALS OBJECTS/VARS
 */
+WagFi wagfi = WagFi(WIFI_SSID, WIFI_PASSWORD);
 Bluetooth bluetooth = Bluetooth(BLUETOOTH_RX, BLUETOOTH_TX);
 Ultrasonic ultrasonic = Ultrasonic(
 	ULTRASONIC_TRIGGER_PIN, ULTRASONIC_ECHO_PIN
@@ -38,6 +43,7 @@ Wagner wagner = Wagner(
 void setup() {
 	Serial.begin(9600);
 	randomSeed(analogRead(A0));
+	wagfi.connect();
 }
 
 void loop() {
@@ -49,6 +55,9 @@ void loop() {
 	Serial.print(distance_in_cm);
 	Serial.println("cm");
 */
+	if (!wagfi.connected()) {
+		wagfi.reconnect();
+	}
 
 	if (bluetooth.available()) {
 		wagner.handleUARTByteReceived(UART_BLUETOOTH_ID, bluetooth.getCurrentByte());
