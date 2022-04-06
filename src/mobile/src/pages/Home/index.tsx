@@ -6,12 +6,10 @@ import { StackAppParams } from '../../routes/app.routes';
 import { styles } from './styles';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors } from '../../global/colors';
-import { useMqtt } from '../../hooks/mqtt';
+import MqttStatus from '../../components/MqttStatus';
 
 const Home = (): JSX.Element => {
-  const { status } = useMqtt()
   const navigation = useNavigation<NavigationProp<StackAppParams>>()
 
   return (
@@ -23,11 +21,7 @@ const Home = (): JSX.Element => {
         >
           <MaterialIcons name='music-note' size={35} color={colors.aliceBlue} />
         </TouchableOpacity>
-        {
-          status 
-            ? <Ionicons name='cloud-done' size={35} color={colors.green} />
-            : <Ionicons name='cloud-offline' size={35} color={colors.red} />
-        }
+        <MqttStatus />
         <TouchableOpacity
           activeOpacity={.6}
           onPress={() => navigation.navigate('Config', {})}
