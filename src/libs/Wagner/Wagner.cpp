@@ -5,6 +5,7 @@ Wagner::Wagner(unsigned int lm, Motor* motors) {
 	this->recalculating_route = false;
 	this->direction = 1;
 	this->decision = -1;
+	this->wifi_reconnection_attempts = 0;
 
 	this->motors = motors;
 	this->motors_length = lm;
@@ -21,6 +22,38 @@ Wagner::Wagner(unsigned int lm, Motor* motors) {
 	this->setCurrentAction(&this->default_actions[ACTION_WALK_FORWARD]);
 
 	WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+}
+
+void Wagner::reconnectWifi() {
+	static unsigned long lmillis = millis();
+
+	if (this->wifiConnected()) {
+		this->wifi_reconnection_attempts = 0;
+		return;
+	}
+
+	if (this->wifi_reconnection_attempts >= CONST_WIFI_RECONNECT_ATTEMPTS) {
+		return this->retryReconnection();
+	}
+	
+	if ((millis() - lmillis) >= CONST_WAITING_TO_RETRY_RECONNECT_IN_MS) {
+		WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+		this->wifi_reconnection_attempts++;
+		lmillis = millis();
+	}
+}
+
+void Wagner::retryReconnection() {
+	static unsigned long lmillis = millis();
+
+	if ((millis() - lmillis) >= CONST_RETRY_RECONNECT_IN_MS) {
+		this->resetReconnectionAttempts();
+		lmillis = millis();
+	}
+}
+
+void Wagner::resetReconnectionAttempts() {
+	this->wifi_reconnection_attempts = 0;
 }
 
 bool Wagner::wifiConnected() {

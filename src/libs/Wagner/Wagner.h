@@ -28,6 +28,9 @@
 #define CONST_CN_BLOCKED_TIME_IN_MS 2000
 #define CONST_CN_WALKING_TIME_IN_MS 2000
 #define CONST_PRINT_WIFI_STATUS_IN_MS 3000
+#define CONST_WIFI_RECONNECT_ATTEMPTS 5
+#define CONST_WAITING_TO_RETRY_RECONNECT_IN_MS 2000
+#define CONST_RETRY_RECONNECT_IN_MS 120000
 
 
 class Wagner {
@@ -42,10 +45,12 @@ private:
 	int decision;
 	bool recalculating_route;
 	unsigned long last_millis;
+	int wifi_reconnection_attempts;
 
 	void random_decision_side();
 	void write();
 	void setCurrentAction(Action*);
+	void resetReconnectionAttempts();
 
 public:
 	Wagner(unsigned int,Motor*);
@@ -56,6 +61,8 @@ public:
 	void drive(long);
 	void handleProtocolStringChanged(String);
 	void handleUARTByteReceived(byte,byte);
+	void retryReconnection();
+	void reconnectWifi();
 
 };
 
