@@ -11,7 +11,7 @@ const mqttProps: { brokerUrl: string, options: IClientOptions } = {
     port: 8000,
     protocol: 'ws' as 'ws',
     host: 'broker.hivemq.com',
-    clientId: `Wagner${Math.random() * 100}`,
+    clientId: `Wagner-${Math.floor(Math.random() * 100)}`,
     keepalive: 60,
     protocolId: 'MQTT',
     protocolVersion: 4,

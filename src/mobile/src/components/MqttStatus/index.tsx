@@ -7,7 +7,7 @@ import { colors } from '../../global/colors';
 
 const MqttStatus = (): JSX.Element => {
   const { status, clientMqtt } = useMqtt()
-  const [tooltipVisible, setTooltipVisible] = useState<boolean>(true)
+  const [tooltipVisible, setTooltipVisible] = useState<boolean>(false)
 
   const Content = (): JSX.Element => (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'space-evenly' }}>

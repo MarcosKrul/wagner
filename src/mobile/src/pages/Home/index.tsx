@@ -36,7 +36,7 @@ const Home = (): JSX.Element => {
           <Slider
             style={styles.slider}
             minimumValue={0}
-            maximumValue={360}
+            maximumValue={100}
             minimumTrackTintColor={colors.cgBlue}
             maximumTrackTintColor="#000000"
             thumbTintColor={colors.carolinaBlue}
