@@ -18,23 +18,23 @@ const MqttStatus = (): JSX.Element => {
 
   return (
     <Tooltip
-    isVisible={tooltipVisible}
-    contentStyle={{ backgroundColor: colors.prussianBlue, height: 70, width: 240 }}
-    content={<Content />}
-    placement='bottom'
-    onClose={() => setTooltipVisible(false)}
-  >
-    <TouchableOpacity 
-      activeOpacity={.6}
-      onPress={() => setTooltipVisible(true)}
-      >
-      {
-        status 
-          ? <Ionicons name='cloud-done' size={35} color={colors.green} />
-          : <Ionicons name='cloud-offline' size={35} color={colors.red} />
-      }
-    </TouchableOpacity>
-  </Tooltip>
+      isVisible={tooltipVisible}
+      contentStyle={{ backgroundColor: colors.prussianBlue, height: 70, width: 240 }}
+      content={<Content />}
+      placement='bottom'
+      onClose={() => setTooltipVisible(false)}
+    >
+      <TouchableOpacity 
+        activeOpacity={.6}
+        onPress={() => setTooltipVisible(true)}
+        >
+        {
+          status 
+            ? <Ionicons name='cloud-done' size={35} color={colors.green} />
+            : <Ionicons name='cloud-offline' size={35} color={colors.red} />
+        }
+      </TouchableOpacity>
+    </Tooltip>
   )
 }
 
