@@ -83,9 +83,10 @@ void Wagner::handleProtocolStringChanged(String value) {
 	}
 
 	String direction = value.substring(0, value.indexOf(UART_PROTOCOL_STRING_DELIMITER));
-	if (direction.length() == 1 || direction.length() == 2) {
-		if (direction.indexOf(UART_PROTOCOL_STRING_CURRENT_DIRECTION) == -1) {
-			this->direction = direction.toInt();
+	if (direction.length() == 2) {
+		int direction_converted = direction.toInt();
+		if (CONVERT_DIRECTION_TO_ID(direction_converted)) {
+			this->direction = direction_converted;
 		}
 	} else {
 		Serial.println("ERROR -> void Wagner::handleProtocolStringChanged(String): invalid direction");
