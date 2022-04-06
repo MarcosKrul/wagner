@@ -4,6 +4,10 @@
 #include <Motor.h>
 #include <Action.h>
 #include <Arduino.h>
+#include <ESP8266WiFi.h>
+
+#define WIFI_SSID "SSID_HERE"
+#define WIFI_PASSWORD "PASSWORD_HERE"
 
 #define UART_METHODS_NUMBER 1
 #define UART_BLUETOOTH_ID 0
@@ -44,6 +48,9 @@ private:
 
 public:
 	Wagner(unsigned int,Motor*);
+	bool wifiConnected();
+	String getMacAddress();
+	IPAddress getLocalIP();
 	void drive(long);
 	void handleProtocolStringChanged(String);
 	void handleUARTByteReceived(byte,byte);

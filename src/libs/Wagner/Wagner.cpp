@@ -19,6 +19,20 @@ Wagner::Wagner(unsigned int lm, Motor* motors) {
 	};
 
 	this->setCurrentAction(&this->default_actions[ACTION_WALK_FORWARD]);
+
+	WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+}
+
+bool Wagner::wifiConnected() {
+	return (WiFi.status() == WL_CONNECTED);
+}
+
+IPAddress Wagner::getLocalIP() {
+	return (WiFi.localIP());
+}
+
+String Wagner::getMacAddress() {
+	return (WiFi.macAddress());
 }
 
 void Wagner::handleUARTByteReceived(byte uart_id, byte received) {
