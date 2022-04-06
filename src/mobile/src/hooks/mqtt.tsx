@@ -45,7 +45,8 @@ interface MqttContextData {
     config: MqttProps
   ): void
   clientMqtt: MqttClient;
-  payload: Buffer
+  payload: Buffer;
+  status: boolean;
 }
 
 export interface MqttProps {
@@ -65,27 +66,33 @@ export const MqttProvider = ({ children, mqttProps }: MqttProviderProps): JSX.El
     mqtt.connect(mqttProps.brokerUrl, mqttProps.options)
   )
   const [payload, setPayload] = useState<Buffer>()
+  const [status, setStatus] = useState<boolean>(false)
 
   useEffect(() => {
     clientMqtt.on('connect', (packet: Packet) => {
       console.log('CONNECTED')
+      setStatus(true)
     })
 
     clientMqtt.on('reconnect', (a: any, b: any) => {
+      setStatus(false)
       console.log('Reconnecting', a, b)
     })
 
     clientMqtt.on('error', (err) => {
+      setStatus(false)
       console.error('Connection error: ', err)
       clientMqtt.end()
     })
 
     clientMqtt.on('end', () => {
+      setStatus(false)
       console.log('Connection Ended')
       clientMqtt.end()
     })
 
     clientMqtt.on('disconnect', (packet: Packet) => {
+      setStatus(false)
       console.error('Disconnecting: ', packet)
       clientMqtt.end()
     })
@@ -147,6 +154,7 @@ export const MqttProvider = ({ children, mqttProps }: MqttProviderProps): JSX.El
         clientMqtt,
         configureBroker,
         payload: payload as Buffer,
+        status
       }}
     >
       {children}

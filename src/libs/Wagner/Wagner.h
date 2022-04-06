@@ -41,7 +41,6 @@ private:
 	void random_decision_side();
 	void write();
 	void setCurrentAction(Action*);
-	void resetReconnectionAttempts();
 
 public:
 	Wagner(unsigned int,Motor*);
