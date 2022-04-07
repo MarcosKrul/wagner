@@ -3,39 +3,81 @@
 	closeable="true" 
 	on-close="close" 
 	resizable="false"
-	style="
-		background-image: url('&imagemRobo');
-		background-repeat: no-repeat;
-		background-attachment: fixed;
-		background-position: center;
-		background-size: cover;"
-	>
-	<group layout="vbox" flat="true" style="background-image: url('');">
-		<label text="Controles"/>
-		<group layout="vbox" >
-			<group layout="hbox" flat="true" >
-				<button id="106" text="⇖" style="font-size: 36px; max-width: 64px; max-height: 64px;" on-click="btnClick" />
-				<button id="101" text="▲" style="font-size: 28px; max-width: 64px; max-height: 64px;" on-click="btnClick" />
-				<button id="107" text="⇗" style="font-size: 36px; max-width: 64px; max-height: 64px;" on-click="btnClick" />
-			</group>     
-			<group layout="hbox" flat="true" >
-				<button id="102" text="◄" style="font-size: 28px; max-width: 64px; max-height: 64px;" on-click="btnClick" />
-				<button id="103" text="█" style="font-size: 18px; max-width: 64px; max-height: 64px;" on-click="btnClick" />
-				<button id="104" text="►" style="font-size: 28px; max-width: 64px; max-height: 64px;" on-click="btnClick" />
-			</group> 	
-			<group layout="hbox" flat="true" >
-				<button id="108" text="⇙" style="font-size: 36px; max-width: 64px; max-height: 64px;" on-click="btnClick" />
-				<button id="105" text="▼" style="font-size: 28px; max-width: 64px; max-height: 64px;" on-click="btnClick" />
-				<button id="109" text="⇘" style="font-size: 36px; max-width: 64px; max-height: 64px;" on-click="btnClick" />
-			</group> 
-		</group>
-		<group layout="vbox" flat="true">
-			<label text="Velocidade"/>
-			<group layout="hbox" >
-				<label text="-" />
-				<hslider id="110" tick-interval="1" minimum="30" maximum="360" on-change="handleVelocitySiderChanged" />
-				<label text="+" />
+>
+	<tabs>
+	
+		<tab
+			title="Controles" 
+			style="
+				background-image: url('&imagemRobo');
+				background-repeat: no-repeat;
+				background-attachment: fixed;
+				background-position: center;
+				background-size: cover;"
+		>
+			<group layout="vbox" flat="true" style="background-image: url('');">
+				<label text="Controles"/>
+				<group layout="vbox" >
+					<group layout="hbox" flat="true" >
+						<button id="106" text="⇖" style="font-size: 36px; max-width: 64px; max-height: 64px;" on-click="btnClick" />
+						<button id="101" text="▲" style="font-size: 28px; max-width: 64px; max-height: 64px;" on-click="btnClick" />
+						<button id="107" text="⇗" style="font-size: 36px; max-width: 64px; max-height: 64px;" on-click="btnClick" />
+					</group>     
+					<group layout="hbox" flat="true" >
+						<button id="102" text="◄" style="font-size: 28px; max-width: 64px; max-height: 64px;" on-click="btnClick" />
+						<button id="103" text="█" style="font-size: 18px; max-width: 64px; max-height: 64px;" on-click="btnClick" />
+						<button id="104" text="►" style="font-size: 28px; max-width: 64px; max-height: 64px;" on-click="btnClick" />
+					</group> 	
+					<group layout="hbox" flat="true" >
+						<button id="108" text="⇙" style="font-size: 36px; max-width: 64px; max-height: 64px;" on-click="btnClick" />
+						<button id="105" text="▼" style="font-size: 28px; max-width: 64px; max-height: 64px;" on-click="btnClick" />
+						<button id="109" text="⇘" style="font-size: 36px; max-width: 64px; max-height: 64px;" on-click="btnClick" />
+					</group> 
+				</group>
+				<group layout="vbox" flat="true">
+					<label text="Velocidade"/>
+					<group layout="hbox" >
+						<label text="-" />
+							<hslider id="110" tick-interval="1" minimum="30" maximum="360" on-change="handleVelocitySiderChanged" />
+						<label text="+" />
+					</group>
+				</group>  		
 			</group>
-		</group>  		
-	</group>
+		</tab>
+
+		<tab title="Configuracoes">
+			<group layout="hbox" flat="true">
+				<label text="MQTT" style="font-size: 24px;" wordwrap="true" />
+				<label text="Message Queuing Telemetry Transport" />
+			</group>		
+			<group layout="form" >
+				<label text="Servidor" />
+				<edit
+					id="501" 
+					value="broker.mqtt-dashboard.com"
+				/>
+				<label text="Porta" />
+				<edit 
+					id="502"
+					value="1883"
+				/>
+				<label text="Cliente" />
+				<edit 
+					id="503"
+					value="sitemas-embarcados-wagner-01"
+				/>
+				<label text="Topico" />
+				<edit
+					id="504" 
+					value="Sistemas.Embarcados.Wagner"
+				/>
+			</group>
+			<button
+				text="Conetar"
+				on-click="btnConectarClick"
+			/>
+			<stretch />
+		</tab>
+
+	</tabs>	
 </ui> 
