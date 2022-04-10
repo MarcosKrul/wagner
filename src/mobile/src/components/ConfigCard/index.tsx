@@ -15,11 +15,13 @@ const ConfigCard = (): JSX.Element => {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
 
   const onSubmit = (data: any): void => {
+    console.log('DATA,', data)
     configureBroker({
       brokerUrl: data.host,
       options: {
         ...clientMqtt.options,
-        port: Number(data.port)
+        port: Number(data.port),
+        host: data.host
       }
     },
     () => setModalVisible(false));
@@ -66,11 +68,11 @@ const ConfigCard = (): JSX.Element => {
                       underlineColorAndroid={colors.carolinaBlue}
                       onBlur={onBlur}
                       onChangeText={value => onChange(value)}
-                      value={value}
+                      value={`${value}`}
                     />
                   </>
                 )}
-                defaultValue={clientMqtt?.options.host}
+                defaultValue={`${clientMqtt?.options?.host}`}
                 name="host"
                 rules={{ required: true }}
               />
@@ -105,7 +107,7 @@ const ConfigCard = (): JSX.Element => {
       >
         <MaterialIcons name='edit' size={25} color={colors.aliceBlue} />
       </TouchableOpacity>
-      <Text style={styles.propsText}>Broker: {clientMqtt?.options?.host || 'Broker indisponível'}</Text>
+      <Text style={styles.propsText} numberOfLines={1}>Host: {clientMqtt?.options?.host || 'Broker indisponível'}</Text>
       <Text style={styles.propsText}>Porta: {clientMqtt?.options?.port || 'Porta indisponível'}</Text>
       <Text style={styles.propsText}>Protocolo: {clientMqtt?.options?.protocol || 'Protocolo indisponível'}</Text>
       <Text style={styles.propsText}>Cliente: {clientMqtt?.options?.clientId || 'Cliente indisponível'}</Text>
