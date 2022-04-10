@@ -27,11 +27,17 @@ export const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: 15
+    padding: 15,
+    alignItems: 'flex-start'
   },
   switchText: {
     fontSize: 18,
     color: colors.aliceBlue,
+    paddingLeft: 10
+  },
+  switchSubText: {
+    fontSize: 14,
+    color: colors.carolinaBlue,
     paddingLeft: 10
   }
 })

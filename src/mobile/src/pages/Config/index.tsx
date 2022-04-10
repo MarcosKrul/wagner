@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Switch, Text, TouchableOpacity, View } from 'react-native';
 import { styles } from './styles';
 
@@ -35,7 +35,15 @@ const Config = (): JSX.Element => {
           style={styles.switchContainer}
           onPress={() => switchButtonsOption(!buttonsOption)}
         >
-          <Text style={styles.switchText}>{!buttonsOption ? 'Pressionar botões' : 'Segurar botões'}</Text>
+          <View style={{ flex: 1 }}>
+            <Text style={styles.switchText}>{!buttonsOption ? 'Pressionar botões' : 'Segurar botões'}</Text>
+            <Text style={styles.switchSubText}>{
+              !buttonsOption
+                ? 'A ação cessará imediatamente após o toque'
+                : 'A ação cessará ao parar de pressionar o botão'
+            
+            }</Text>
+          </View>
           <Switch 
             onChange={() => switchButtonsOption(!buttonsOption)}
             value={buttonsOption}
