@@ -34,8 +34,8 @@ export const WagnerProvider: React.FC = ({ children }) => {
         } else {
             const initialConfigs: WagnerConfigs = {
               buttonsOption: false,
-              controlTopic: 'Sistemas.Embarcados.Wagner.Actions.Control',
-              speedTopic: 'Sistemas.Embarcados.Wagner.Actions.Speed',
+              controlTopic: 'Sistemas.Embarcados.Wagner.Actions',
+              speedTopic: 'Sistemas.Embarcados.Wagner.Speed',
               mqttProps: parsedConfigs.mqttProps
             }
             await AsyncStorage.setItem('@Wagner:configs', JSON.stringify(initialConfigs))
