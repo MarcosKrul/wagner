@@ -3,11 +3,14 @@ import React, { createContext, useState, useContext, useEffect } from 'react'
 
 interface WagnerConfigs {
   buttonsOption: boolean;
+  controlTopic: string;
+  speedTopic: string;
 }
 
 interface WagnerContextData {
   configs: WagnerConfigs;
-  switchButtonsOption: (option: boolean) => void;
+  switchButtonsOption: (option: boolean) => Promise<void>;
+  changeTopics: (newTopic: string, which: 0 | 1) => Promise<void>;
 }
 
 const WagnerContext = createContext<WagnerContextData>({} as WagnerContextData)
@@ -25,7 +28,9 @@ export const WagnerProvider: React.FC = ({ children }) => {
         setConfigs(JSON.parse(storedConfigs))
       } else {
         const initialConfigs: WagnerConfigs = {
-          buttonsOption: false
+          buttonsOption: false,
+          controlTopic: 'Sistemas.Embarcados.Wagner.Actions.Control',
+          speedTopic: 'Sistemas.Embarcados.Wagner.Actions.Speed'
         }
         setConfigs(initialConfigs)
       }
@@ -33,17 +38,26 @@ export const WagnerProvider: React.FC = ({ children }) => {
   }, [])
 
   const switchButtonsOption = async (option: boolean): Promise<void> => {
-    const newOptions: WagnerConfigs = { ...configs, buttonsOption: option }
-    setConfigs(newOptions)
-    await AsyncStorage.setItem('@Wagner:configs', JSON.stringify(newOptions))
-    console.log('NEW', newOptions)
+    const newOptions: WagnerConfigs = { ...configs, buttonsOption: option };
+    setConfigs(newOptions);
+    await AsyncStorage.setItem('@Wagner:configs', JSON.stringify(newOptions));
+  }
+
+  const changeTopics = async (newTopic: string, which: number): Promise<void> => {
+    const newOptions: WagnerConfigs = which === 0
+      ? { ...configs, controlTopic: newTopic }
+      : { ...configs, speedTopic: newTopic }
+
+    setConfigs(newOptions);
+    await AsyncStorage.setItem('@Wagner:configs', JSON.stringify(newOptions));
   }
 
   return (
     <WagnerContext.Provider
       value={{
         configs,
-        switchButtonsOption
+        switchButtonsOption,
+        changeTopics
       }}
     >
       {children}

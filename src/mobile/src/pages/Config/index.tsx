@@ -11,7 +11,7 @@ import { useWagner } from '../../hooks/wagner';
 
 const Config = (): JSX.Element => {
   const navigation = useNavigation<NavigationProp<StackAppParams>>()
-  const { configs: { buttonsOption }, switchButtonsOption } = useWagner();
+  const { configs: { buttonsOption, controlTopic, speedTopic }, switchButtonsOption } = useWagner();
 
   return (
     <View style={styles.container}>
@@ -53,6 +53,28 @@ const Config = (): JSX.Element => {
               true: colors.sapphireBlue
             }}
           />
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={.6}
+          style={{ ...styles.switchContainer, alignItems: 'center' }}
+          onPress={() => switchButtonsOption(!buttonsOption)}
+        >
+          <View style={{ flex: 1 }}>
+            <Text style={styles.switchText}>Tópico de controles</Text>
+            <Text numberOfLines={1} style={styles.switchSubText}>{controlTopic}</Text>
+          </View>
+          <AntDesign name='right' color={colors.aliceBlue} size={30} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={.6}
+          style={{ ...styles.switchContainer, alignItems: 'center' }}
+          onPress={() => switchButtonsOption(!buttonsOption)}
+        >
+          <View style={{ flex: 1 }}>
+            <Text style={styles.switchText}>Tópico de velocidade</Text>
+            <Text numberOfLines={1} style={styles.switchSubText}>{speedTopic}</Text>
+          </View>
+          <AntDesign name='right' color={colors.aliceBlue} size={30} />
         </TouchableOpacity>
       </View>
     </View>
