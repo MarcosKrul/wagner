@@ -12,7 +12,7 @@ const MqttStatus = (): JSX.Element => {
   const Content = (): JSX.Element => (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'space-evenly' }}>
       <Text style={{ color: colors.aliceBlue }}>A conexão MQTT está {status ? 'ativa' : 'inativa'}</Text>
-      <Text style={{ color: colors.aliceBlue }}>Broker: {clientMqtt?.options?.host || 'Indisponível'}</Text>
+      <Text style={{ color: colors.aliceBlue }}>Broker: {`${clientMqtt?.options?.host}:${clientMqtt?.options?.port}` || 'Indisponível'}</Text>
     </View>
   )
 

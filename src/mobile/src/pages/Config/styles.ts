@@ -73,5 +73,10 @@ export const styles = StyleSheet.create({
   buttonsText: {
     fontSize: 18,
     color: colors.aliceBlue,
+  },
+  label: {
+    fontSize: 13,
+    color: colors.aliceBlue,
+    opacity: 0.7
   }
 })

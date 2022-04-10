@@ -19,7 +19,7 @@ const Config = (): JSX.Element => {
   const [modalVisible, setModalVisible] = useState<number>(-1);
 
   const onSubmit = (data: any): void => {
-    
+
     changeTopics(
       modalVisible === 0 ? data?.controlTopic : data?.speedTopic,
       modalVisible as 0 | 1,
@@ -61,14 +61,17 @@ const Config = (): JSX.Element => {
                 <Controller
                   control={control}
                   render={({field: { onChange, onBlur, value }}) => (
-                    <TextInput
-                      style={styles.input}
-                      selectionColor={colors.carolinaBlue}
-                      underlineColorAndroid={colors.carolinaBlue}
-                      onBlur={onBlur}
-                      onChangeText={value => onChange(value)}
-                      value={value}
-                    />
+                    <>
+                      <Text style={styles.label}>Tópico</Text>
+                      <TextInput
+                        style={styles.input}
+                        selectionColor={colors.carolinaBlue}
+                        underlineColorAndroid={colors.carolinaBlue}
+                        onBlur={onBlur}
+                        onChangeText={value => onChange(value)}
+                        value={value}
+                      />
+                    </>
                   )}
                   defaultValue={controlTopic}
                   name="controlTopic"
@@ -85,14 +88,17 @@ const Config = (): JSX.Element => {
                 <Controller
                   control={control}
                   render={({field: { onChange, onBlur, value }}) => (
-                    <TextInput
-                      style={styles.input}
-                      selectionColor={colors.carolinaBlue}
-                      underlineColorAndroid={colors.carolinaBlue}
-                      onBlur={onBlur}
-                      onChangeText={value => onChange(value)}
-                      value={value}
-                    />
+                    <>
+                      <Text style={styles.label}>Tópico</Text>
+                      <TextInput
+                        style={styles.input}
+                        selectionColor={colors.carolinaBlue}
+                        underlineColorAndroid={colors.carolinaBlue}
+                        onBlur={onBlur}
+                        onChangeText={value => onChange(value)}
+                        value={value}
+                      />
+                    </>
                   )}
                   defaultValue={speedTopic}
                   name="speedTopic"

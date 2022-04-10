@@ -43,7 +43,8 @@ interface MqttContextData {
     topic_: string, payload: Buffer, packet: Packet
   ): void;
   configureBroker(
-    config: MqttProps
+    config: MqttProps,
+    callback: () => void
   ): void
   clientMqtt: MqttClient;
   payload: Buffer;
@@ -141,9 +142,10 @@ export const MqttProvider = ({ children, mqttProps }: MqttProviderProps): JSX.El
     setPayload(payload)
   }
 
-  const configureBroker = (config: MqttProps): void => {
+  const configureBroker = (config: MqttProps, callback: () => void): void => {
     clientMqtt.end(true)
     setClientMqtt(() => mqtt.connect(config.brokerUrl, config.options))
+    callback();
   }
 
   return (

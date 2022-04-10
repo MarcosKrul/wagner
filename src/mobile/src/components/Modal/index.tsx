@@ -5,9 +5,10 @@ import { styles } from './styles';
 interface CustomModal {
   visible: boolean;
   onClose: () => void;
+  height?: number
 }
 
-const CustomModal: React.FC<CustomModal> = ({ children, onClose, visible }) => {
+const CustomModal: React.FC<CustomModal> = ({ children, onClose, visible, height }) => {
 
   return (
     <Modal
@@ -17,7 +18,7 @@ const CustomModal: React.FC<CustomModal> = ({ children, onClose, visible }) => {
       transparent
     >
       <View style={styles.container}>
-        <View style={styles.content}>
+        <View style={height ? { ...styles.content, height: height } : styles.content }>
           {children}
         </View>
       </View>
