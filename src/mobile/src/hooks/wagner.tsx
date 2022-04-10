@@ -10,7 +10,7 @@ interface WagnerConfigs {
 interface WagnerContextData {
   configs: WagnerConfigs;
   switchButtonsOption: (option: boolean) => Promise<void>;
-  changeTopics: (newTopic: string, which: 0 | 1) => Promise<void>;
+  changeTopics: (newTopic: string, which: 0 | 1, callback: () => void) => Promise<void>;
 }
 
 const WagnerContext = createContext<WagnerContextData>({} as WagnerContextData)
@@ -43,13 +43,14 @@ export const WagnerProvider: React.FC = ({ children }) => {
     await AsyncStorage.setItem('@Wagner:configs', JSON.stringify(newOptions));
   }
 
-  const changeTopics = async (newTopic: string, which: number): Promise<void> => {
+  const changeTopics = async (newTopic: string, which: number, callback: () => void): Promise<void> => {
     const newOptions: WagnerConfigs = which === 0
       ? { ...configs, controlTopic: newTopic }
       : { ...configs, speedTopic: newTopic }
 
     setConfigs(newOptions);
     await AsyncStorage.setItem('@Wagner:configs', JSON.stringify(newOptions));
+    callback();
   }
 
   return (
