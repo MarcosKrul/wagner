@@ -19,6 +19,7 @@ const Config = (): JSX.Element => {
   const [modalVisible, setModalVisible] = useState<number>(-1);
 
   const onSubmit = (data: any): void => {
+    
     changeTopics(
       modalVisible === 0 ? data?.controlTopic : data?.speedTopic,
       modalVisible as 0 | 1,
