@@ -9,9 +9,21 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { colors } from '../../global/colors';
 import MqttStatus from '../../components/MqttStatus';
 import Joypad from '../../components/Joypad';
+import { useMqtt } from '../../hooks/mqtt';
+import { useWagner } from '../../hooks/wagner';
 
 const Home = (): JSX.Element => {
   const navigation = useNavigation<NavigationProp<StackAppParams>>()
+  const { configs: { controlTopic, speedTopic } } = useWagner()
+  const { publish } = useMqtt()
+
+  const executeButtonAction = (action: string): void => {
+    publish(controlTopic, action, { qos: 1 })
+  }
+
+  const setSliderValue = (value: number): void => {
+    publish(speedTopic, `${Math.floor(value)}`, { qos: 1 })
+  }
 
   return (
     <View style={styles.container}>
@@ -31,7 +43,7 @@ const Home = (): JSX.Element => {
         </TouchableOpacity>
       </View>
       <View style={styles.content}>
-        <Joypad />
+        <Joypad executeAction={executeButtonAction} />
         <View>
           <Slider
             style={styles.slider}
@@ -40,6 +52,7 @@ const Home = (): JSX.Element => {
             minimumTrackTintColor={colors.cgBlue}
             maximumTrackTintColor="#000000"
             thumbTintColor={colors.carolinaBlue}
+            onSlidingComplete={setSliderValue}
           />
         </View>
       </View>
