@@ -4,6 +4,7 @@ import { IClientOptions } from '@taoqf/react-native-mqtt';
 import { MqttProvider } from '../hooks/mqtt';
 import { colors } from '../global/colors';
 import AppRoutes from './app.routes';
+import { WagnerProvider } from '../hooks/wagner';
 
 const mqttProps: { brokerUrl: string, options: IClientOptions } = {
   brokerUrl: 'ws://broker.hivemq.com:8000/mqtt',
@@ -33,7 +34,7 @@ const Routes = (): JSX.Element => {
   useEffect(() => {
     setTimeout(() => {
       setLoading(false)
-    }, 2000)
+    }, 1500)
   })
 
   if (loading) {
@@ -48,7 +49,9 @@ const Routes = (): JSX.Element => {
 
   return (
     <MqttProvider mqttProps={mqttProps}>
-      <AppRoutes />
+      <WagnerProvider>
+        <AppRoutes />
+      </WagnerProvider>
     </MqttProvider>
   )
 };

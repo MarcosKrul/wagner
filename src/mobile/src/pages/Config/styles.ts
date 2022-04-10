@@ -23,4 +23,15 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start'
   },
+  switchContainer: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 15
+  },
+  switchText: {
+    fontSize: 18,
+    color: colors.aliceBlue,
+    paddingLeft: 10
+  }
 })

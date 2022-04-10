@@ -17,6 +17,7 @@ const Joypad = ({ executeAction }: Joypad): JSX.Element => {
     <TouchableOpacity
       activeOpacity={.6}
       onPress={() => executeAction('<19#210>')}
+      onPressOut={() => console.log('OLA')}
     >
       <MaterialIcons name='keyboard-arrow-up' style={{ transform: [{ rotateZ: '-45deg' }] }} size={150} color={colors.aliceBlue} />
     </TouchableOpacity>
