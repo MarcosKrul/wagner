@@ -9,6 +9,7 @@ import mqtt, {
 } from '@taoqf/react-native-mqtt'
 
 import { Buffer } from 'buffer'
+import { Alert } from 'react-native'
 global.Buffer = Buffer
 
 interface MqttContextData {
@@ -118,13 +119,14 @@ export const MqttProvider = ({ children, mqttProps }: MqttProviderProps): JSX.El
     ) => void
   ) => {
     clientMqtt.publish(topic, message, opts, (error, packet) => {
-      console.log('error', error)
-      clientMqtt.on(
-        'message',
-        (topic_: string, payload: Buffer, packet_: Packet) => {
-          callback(topic_, payload, packet_, error)
-        }
-      )
+      if (error)
+        Alert.alert('Erro', 'Ocorreu um erro inesperado durante a publicação. Tente novamente.')
+      // clientMqtt.on(
+      //   'message',
+      //   (topic_: string, payload: Buffer, packet_: Packet) => {
+      //     callback(topic_, payload, packet_, error)
+      //   }
+      // )
     })
   }
 

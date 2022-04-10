@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavigationProp, useNavigation } from '@react-navigation/core';
 import { View, TouchableOpacity } from 'react-native';
 import Slider from '@react-native-community/slider';
@@ -9,9 +9,15 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { colors } from '../../global/colors';
 import MqttStatus from '../../components/MqttStatus';
 import Joypad from '../../components/Joypad';
+import { useMqtt } from '../../hooks/mqtt';
 
 const Home = (): JSX.Element => {
   const navigation = useNavigation<NavigationProp<StackAppParams>>()
+  const { publish } = useMqtt()
+
+  const executeAction = (action: string): void => {
+    publish('embarcados.controle.wagner.controle', action, { qos: 1 }, () => console.log('PUBLISHED: ', action))
+  }
 
   return (
     <View style={styles.container}>
@@ -31,7 +37,7 @@ const Home = (): JSX.Element => {
         </TouchableOpacity>
       </View>
       <View style={styles.content}>
-        <Joypad />
+        <Joypad executeAction={executeAction} />
         <View>
           <Slider
             style={styles.slider}

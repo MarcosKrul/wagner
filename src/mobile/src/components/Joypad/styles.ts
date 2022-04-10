@@ -12,10 +12,10 @@ export const styles = StyleSheet.create({
     width: Dimensions.get('window').width,
     flex: 0.4,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
   },
   bottomButtons: {
-    width: Dimensions.get('window').width - 60,
+    width: Dimensions.get('window').width,
     flex: 0.4,
     flexDirection: 'row',
     justifyContent: 'center',
