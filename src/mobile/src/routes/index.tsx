@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, ActivityIndicator, Text, StyleSheet } from 'react-native'
+import { View, ActivityIndicator, Text, StyleSheet, Alert } from 'react-native'
 import { IClientOptions } from '@taoqf/react-native-mqtt';
 import { MqttProps, MqttProvider } from '../hooks/mqtt';
 import { colors } from '../global/colors';
@@ -35,19 +35,26 @@ const Routes = (): JSX.Element => {
 
   useEffect(() => {
     (async () => {
-      const storedConfigs = await AsyncStorage.getItem('@Wagner:configs')
-
-      if (storedConfigs) {
-        const configs: WagnerConfigs = JSON.parse(storedConfigs);
-
-        if (configs.mqttProps) {
-          setRetrievedMqttProps(configs.mqttProps)
-          setLoading(false)
-        } else {
+      try {
+        const storedConfigs = await AsyncStorage.getItem('@Wagner:configs')
+  
+        if (storedConfigs) {
+          const configs: WagnerConfigs = JSON.parse(storedConfigs);
+  
+          if (configs.mqttProps) {
+            setRetrievedMqttProps(configs.mqttProps)
+            setLoading(false)
+          } else {
+            setRetrievedMqttProps(mqttProps)
+            setLoading(false)
+          }
+        }  else {
           setRetrievedMqttProps(mqttProps)
           setLoading(false)
         }
-      } 
+      } catch (e) {
+        Alert.alert('Ops...', 'Ocorreu um erro durante o carregamento: ' + `${e}`)
+      }
     })()
   }, [])
 
