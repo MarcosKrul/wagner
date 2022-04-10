@@ -29,8 +29,8 @@ export const WagnerProvider: React.FC = ({ children }) => {
       if (storedConfigs) {
         const parsedConfigs: WagnerConfigs = JSON.parse(storedConfigs)
 
-        if (parsedConfigs.buttonsOption && parsedConfigs.controlTopic && parsedConfigs.speedTopic) {
-          setConfigs(JSON.parse(storedConfigs))
+        if (parsedConfigs.controlTopic && parsedConfigs.speedTopic) {
+          setConfigs(parsedConfigs)
         } else {
             const initialConfigs: WagnerConfigs = {
               buttonsOption: false,
@@ -38,6 +38,7 @@ export const WagnerProvider: React.FC = ({ children }) => {
               speedTopic: 'Sistemas.Embarcados.Wagner.Actions.Speed',
               mqttProps: parsedConfigs.mqttProps
             }
+            await AsyncStorage.setItem('@Wagner:configs', JSON.stringify(initialConfigs))
             setConfigs(initialConfigs)
         }
       } 

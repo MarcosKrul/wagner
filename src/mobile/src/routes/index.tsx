@@ -49,6 +49,7 @@ const Routes = (): JSX.Element => {
             setLoading(false)
           }
         }  else {
+          await AsyncStorage.setItem('@Wagner:configs', JSON.stringify({ mqttProps }))
           setRetrievedMqttProps(mqttProps)
           setLoading(false)
         }
