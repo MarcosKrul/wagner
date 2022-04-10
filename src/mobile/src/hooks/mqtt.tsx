@@ -17,12 +17,12 @@ interface MqttContextData {
     topic: string,
     message: string | Buffer,
     opts: IClientPublishOptions,
-    callback: (
-      topic_: string,
-      payload: Buffer,
-      packet: Packet,
-      error?: Error
-    ) => void
+    // callback: (
+    //   topic_: string,
+    //   payload: Buffer,
+    //   packet: Packet,
+    //   error?: Error
+    // ) => void
   ): void;
   subscribe(
     topic: string | string[],
@@ -111,12 +111,12 @@ export const MqttProvider = ({ children, mqttProps }: MqttProviderProps): JSX.El
     topic: string,
     message: string | Buffer,
     opts: IClientPublishOptions,
-    callback: (
-      topic_: string,
-      payload: Buffer,
-      packet: Packet,
-      error?: Error
-    ) => void
+    // callback: (
+    //   topic_: string,
+    //   payload: Buffer,
+    //   packet: Packet,
+    //   error?: Error
+    // ) => void
   ) => {
     clientMqtt.publish(topic, message, opts, (error, packet) => {
       if (error)

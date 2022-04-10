@@ -16,7 +16,7 @@ const Home = (): JSX.Element => {
   const { publish } = useMqtt()
 
   const executeAction = (action: string): void => {
-    publish('embarcados.controle.wagner.controle', action, { qos: 1 }, () => console.log('PUBLISHED: ', action))
+    publish('embarcados.controle.wagner.controle', action, { qos: 1 })
   }
 
   return (
