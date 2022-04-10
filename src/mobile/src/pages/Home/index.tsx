@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { NavigationProp, useNavigation } from '@react-navigation/core';
 import { View, TouchableOpacity } from 'react-native';
 import Slider from '@react-native-community/slider';
@@ -15,8 +15,12 @@ const Home = (): JSX.Element => {
   const navigation = useNavigation<NavigationProp<StackAppParams>>()
   const { publish } = useMqtt()
 
-  const executeAction = (action: string): void => {
+  const executeButtonAction = (action: string): void => {
     publish('embarcados.controle.wagner.controle', action, { qos: 1 })
+  }
+
+  const setSliderValue = (value: number): void => {
+    publish('embarcados.controle.wagner.velocidade', `${Math.floor(value)}`, { qos: 1 })
   }
 
   return (
@@ -37,7 +41,7 @@ const Home = (): JSX.Element => {
         </TouchableOpacity>
       </View>
       <View style={styles.content}>
-        <Joypad executeAction={executeAction} />
+        <Joypad executeAction={executeButtonAction} />
         <View>
           <Slider
             style={styles.slider}
@@ -46,6 +50,7 @@ const Home = (): JSX.Element => {
             minimumTrackTintColor={colors.cgBlue}
             maximumTrackTintColor="#000000"
             thumbTintColor={colors.carolinaBlue}
+            onSlidingComplete={setSliderValue}
           />
         </View>
       </View>
