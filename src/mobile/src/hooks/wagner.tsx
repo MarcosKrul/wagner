@@ -27,36 +27,40 @@ export const WagnerProvider: React.FC = ({ children }) => {
       ])
 
       if (storedConfigs) {
-        setConfigs(JSON.parse(storedConfigs))
-      } else {
-        const initialConfigs: WagnerConfigs = {
-          buttonsOption: false,
-          controlTopic: 'Sistemas.Embarcados.Wagner.Actions.Control',
-          speedTopic: 'Sistemas.Embarcados.Wagner.Actions.Speed',
-          mqttProps: {
-            brokerUrl: 'ws://broker.hivemq.com:8000/mqtt',
-            options: {
-              port: 8000,
-              protocol: 'ws' as 'ws',
-              host: 'broker.hivemq.com',
-              clientId: `Wagner-${Math.floor(Math.random() * 100)}`,
-              keepalive: 60,
-              protocolId: 'MQTT',
-              protocolVersion: 4,
-              clean: true,
-              reconnectPeriod: 1000,
-              connectTimeout: 30 * 1000,
-              will: {
-                topic: 'WillMsg',
-                payload: 'Connection Closed abnormally..!',
-                qos: 0,
-                retain: false
-              },
-            },
-          }
+        const parsedConfigs: WagnerConfigs = JSON.parse(storedConfigs)
+
+        if (parsedConfigs.buttonsOption && parsedConfigs.controlTopic && parsedConfigs.speedTopic && parsedConfigs.mqttProps) {
+          setConfigs(JSON.parse(storedConfigs))
+        } else {
+            const initialConfigs: WagnerConfigs = {
+              buttonsOption: false,
+              controlTopic: 'Sistemas.Embarcados.Wagner.Actions.Control',
+              speedTopic: 'Sistemas.Embarcados.Wagner.Actions.Speed',
+              mqttProps: {
+                brokerUrl: 'ws://broker.hivemq.com:8000/mqtt',
+                options: {
+                  port: 8000,
+                  protocol: 'ws' as 'ws',
+                  host: 'broker.hivemq.com',
+                  clientId: `Wagner-${Math.floor(Math.random() * 100)}`,
+                  keepalive: 60,
+                  protocolId: 'MQTT',
+                  protocolVersion: 4,
+                  clean: true,
+                  reconnectPeriod: 1000,
+                  connectTimeout: 30 * 1000,
+                  will: {
+                    topic: 'WillMsg',
+                    payload: 'Connection Closed abnormally..!',
+                    qos: 0,
+                    retain: false
+                  },
+                },
+              }
+            }
+            setConfigs(initialConfigs)
         }
-        setConfigs(initialConfigs)
-      }
+      } 
     })()
   }, [])
 

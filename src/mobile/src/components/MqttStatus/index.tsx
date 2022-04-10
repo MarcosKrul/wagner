@@ -33,7 +33,7 @@ const MqttStatus = (): JSX.Element => {
         >
         {
           reconNumber > 0
-            ? <MaterialCommunityIcons name='cloud-sync' size={35} color={colors.red} />
+            ? <MaterialCommunityIcons name='cloud-sync' size={35} color={colors.yellow} />
             : status 
               ? <Ionicons name='cloud-done' size={35} color={colors.green} />
               : <Ionicons name='cloud-offline' size={35} color={colors.red} />
