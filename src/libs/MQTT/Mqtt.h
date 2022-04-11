@@ -6,6 +6,8 @@
 #include <PubSubClient.h>
 #include <ConnectionManager.h>
 
+#define TOPICS_NUMBER 2
+
 struct mqtt_connection_credentials_t {
   unsigned int port;
   char* host;
@@ -20,8 +22,13 @@ typedef void CallbackFunction(char*,byte*,unsigned int);
 class Mqtt : public ConnectionManager {
   
 private:
-  PubSubClient* client;
+  CallbackFunction* callback;
+  PubSubClient client;
   MqttConnectionCredentials* connection;
+  const char* topics[TOPICS_NUMBER] = {
+    "Sistemas.Embarcados.Wagner.Actions",
+    "Sistemas.Embarcados.Wagner.Velocity"
+  };
 
 protected:
   void connect();
@@ -29,6 +36,7 @@ protected:
 public:
   Mqtt(MqttConnectionCredentials*,CallbackFunction*);
   bool connected();
+  void handler();
 
 };
 

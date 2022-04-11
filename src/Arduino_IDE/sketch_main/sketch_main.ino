@@ -3,6 +3,7 @@
 #include <Wagner.h>
 #include <Bluetooth.h>
 #include <WagFi.h>
+#include <Mqtt.h>
 
 #define QNT_MOTORS 2
 
@@ -20,8 +21,18 @@
 #define BLUETOOTH_RX 4
 #define BLUETOOTH_TX 5
 
+#define MQTT_BROKER_PORT 1883
+#define MQTT_BROKER_HOST "broker.mqtt-dashboard.com"
+#define MQTT_CLIENT_ID "b91a1777b85dc7ae9f68b21fec4e63af"
+
 #define WIFI_SSID "SSID_HERE"
 #define WIFI_PASSWORD "PASSWORD_HERE"
+
+
+/*
+	PROTOTYPES
+*/
+void onMQTTMessageCallback(char*,byte*,unsigned int);
 
 
 /*
@@ -40,10 +51,16 @@ Wagner wagner = Wagner(
 	}
 );
 
+struct mqtt_connection_credentials_t connection_infos = {
+	.port=MQTT_BROKER_PORT,
+	.host=MQTT_BROKER_HOST,
+	.clientId=MQTT_CLIENT_ID
+};
+Mqtt mqtt = Mqtt(&connection_infos, onMQTTMessageCallback);
+
 void setup() {
 	Serial.begin(9600);
 	randomSeed(analogRead(A0));
-	wagfi.connect();
 }
 
 void loop() {
@@ -57,7 +74,13 @@ void loop() {
 */
 	if (!wagfi.connected()) {
 		wagfi.reconnect();
+	} else {
+		if (!mqtt.connected()) {
+			mqtt.reconnect();
+		}
 	}
+
+	mqtt.handler();
 
 	if (bluetooth.available()) {
 		wagner.handleUARTByteReceived(UART_BLUETOOTH_ID, bluetooth.getCurrentByte());
@@ -65,5 +88,17 @@ void loop() {
 
 	wagner.drive(100.0);
 
+	wagfi.printStatus();
 	delay(50);
+}
+
+void onMQTTMessageCallback(char* topic, byte* payload, unsigned int size) {
+  Serial.print("[MSG RECEBIDA] Topico: ");
+  Serial.print(topic);
+  Serial.print(" / Mensagem: ");
+  for (int i = 0; i < size; i++) {
+    Serial.print((char)payload[i]);
+		wagner.handleUARTByteReceived(UART_MQTT_ID, payload[i]);
+  }
+  Serial.println();
 }
