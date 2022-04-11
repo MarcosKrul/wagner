@@ -15,7 +15,6 @@ const ConfigCard = (): JSX.Element => {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
 
   const onSubmit = (data: any): void => {
-    console.log('DATA,', data)
     configureBroker({
       brokerUrl: data.host,
       options: {
