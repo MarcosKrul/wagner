@@ -16,12 +16,13 @@ const ConfigCard = (): JSX.Element => {
 
   const onSubmit = (data: any): void => {
     configureBroker({
-      brokerUrl: data.host,
+      brokerUrl: `ws://${data.host}:${data.port}${data.path}`,
       options: {
         ...clientMqtt.options,
         port: Number(data.port),
         host: data.host,
-        path: data.path
+        hostname: data.host,
+        path: data.path,
       }
     },
     () => setModalVisible(false));
