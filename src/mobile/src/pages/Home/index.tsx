@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { LegacyRef, useEffect, useRef, useState } from 'react';
 import { NavigationProp, useNavigation } from '@react-navigation/core';
 import { View, TouchableOpacity } from 'react-native';
-import Slider from '@react-native-community/slider';
+import Slider, { SliderRef } from '@react-native-community/slider';
 import { StackAppParams } from '../../routes/app.routes';
 import { styles } from './styles';
 
@@ -15,13 +15,27 @@ import { useWagner } from '../../hooks/wagner';
 const Home = (): JSX.Element => {
   const navigation = useNavigation<NavigationProp<StackAppParams>>()
   const { configs: { controlTopic, speedTopic } } = useWagner()
-  const { publish } = useMqtt()
+  const { publish, subscribe, status, payload } = useMqtt()
+  const [currentSliderValue, setCurrentSliderValue] = useState<number>(0)
+
+  useEffect(() => {
+    if (status) {
+      subscribe(speedTopic, { qos: 1, nl: true })
+    } 
+  }, [status])
+
+  useEffect(() => {
+    if (payload && Number(payload.toString()) !== currentSliderValue) {
+      setCurrentSliderValue(Number(payload.toString()))
+    }
+  }, [payload])
 
   const executeButtonAction = (action: string): void => {
     publish(controlTopic, action, { qos: 1 })
   }
 
   const setSliderValue = (value: number): void => {
+    setCurrentSliderValue(Number(Math.floor(value)));
     publish(speedTopic, `${Math.floor(value)}`, { qos: 1 })
   }
 
@@ -53,6 +67,7 @@ const Home = (): JSX.Element => {
             maximumTrackTintColor="#000000"
             thumbTintColor={colors.carolinaBlue}
             onSlidingComplete={setSliderValue}
+            value={currentSliderValue}
           />
         </View>
       </View>
