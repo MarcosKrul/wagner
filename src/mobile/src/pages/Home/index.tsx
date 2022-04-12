@@ -1,7 +1,7 @@
-import React, { LegacyRef, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavigationProp, useNavigation } from '@react-navigation/core';
-import { View, TouchableOpacity, Text, Image } from 'react-native';
-import Slider, { SliderRef } from '@react-native-community/slider';
+import { View, TouchableOpacity, Text } from 'react-native';
+import Slider from '@react-native-community/slider';
 import { StackAppParams } from '../../routes/app.routes';
 import { styles } from './styles';
 
