@@ -1,6 +1,6 @@
 import React, { LegacyRef, useEffect, useRef, useState } from 'react';
 import { NavigationProp, useNavigation } from '@react-navigation/core';
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, Text, Image } from 'react-native';
 import Slider, { SliderRef } from '@react-native-community/slider';
 import { StackAppParams } from '../../routes/app.routes';
 import { styles } from './styles';
@@ -68,8 +68,12 @@ const Home = (): JSX.Element => {
             thumbTintColor={colors.carolinaBlue}
             onSlidingComplete={setSliderValue}
             value={currentSliderValue}
+            //thumbImage={require('../../assets/WagnerFace.png')}
           />
         </View>
+      </View>
+      <View style={styles.bottom}>
+        <Text style={{ color: colors.aliceBlue }}>{`By Rogero & Visage`}</Text>
       </View>
     </View>
   )
