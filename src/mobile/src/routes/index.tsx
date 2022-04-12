@@ -12,7 +12,7 @@ const mqttProps: { brokerUrl: string, options: IClientOptions } = {
   options: {
     port: 8000,
     protocol: 'ws' as 'ws',
-    host: 'broker.mqtt-dashbfoard.com',
+    host: 'broker.mqtt-dashboard.com',
     clientId: `Wagner-${Math.floor(Math.random() * 100)}`,
     will: {
       topic: 'WillMsg',
