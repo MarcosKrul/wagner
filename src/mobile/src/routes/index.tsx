@@ -14,12 +14,6 @@ const mqttProps: { brokerUrl: string, options: IClientOptions } = {
     protocol: 'ws' as 'ws',
     host: 'broker.mqtt-dashboard.com',
     clientId: `Wagner-${Math.floor(Math.random() * 100)}`,
-    keepalive: 60,
-    protocolId: 'MQTT',
-    protocolVersion: 4,
-    clean: true,
-    reconnectPeriod: 1000,
-    connectTimeout: 30 * 1000,
     will: {
       topic: 'WillMsg',
       payload: 'Connection Closed abnormally..!',
