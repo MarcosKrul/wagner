@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, ActivityIndicator, Text, StyleSheet, Alert } from 'react-native'
+import { View, ActivityIndicator, Text, StyleSheet, Alert, Image } from 'react-native'
 import { IClientOptions } from '@taoqf/react-native-mqtt';
 import { MqttProps, MqttProvider } from '../hooks/mqtt';
 import { colors } from '../global/colors';
@@ -37,15 +37,21 @@ const Routes = (): JSX.Element => {
   
           if (configs.mqttProps) {
             setRetrievedMqttProps(configs.mqttProps)
-            setLoading(false)
+            setTimeout(() => {
+              setLoading(false)
+            }, 1500)
           } else {
             setRetrievedMqttProps(mqttProps)
-            setLoading(false)
+            setTimeout(() => {
+              setLoading(false)
+            }, 1500)
           }
         }  else {
           await AsyncStorage.setItem('@Wagner:configs', JSON.stringify({ mqttProps }))
           setRetrievedMqttProps(mqttProps)
-          setLoading(false)
+          setTimeout(() => {
+            setLoading(false)
+          }, 1500)
         }
       } catch (e) {
         Alert.alert('Ops...', 'Ocorreu um erro durante o carregamento: ' + `${e}`)
@@ -56,7 +62,7 @@ const Routes = (): JSX.Element => {
   if (loading || !retrievedMqttProps) {
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>Wagner</Text>
+        <Image source={require('../assets/DJWagner.png')} style={{ height: 200, width: 230 }} />
         <Text style={styles.subtitle}>O próprio original</Text>
         <ActivityIndicator style={styles.loading} size='large' color={colors.carolinaBlue} />
       </View>
