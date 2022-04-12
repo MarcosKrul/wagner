@@ -16,7 +16,7 @@ const Home = (): JSX.Element => {
   const navigation = useNavigation<NavigationProp<StackAppParams>>()
   const { configs: { controlTopic, speedTopic } } = useWagner()
   const { publish, subscribe, status, payload } = useMqtt()
-  const [currentSliderValue, setCurrentSliderValue] = useState<number>(0)
+  const [currentSliderValue, setCurrentSliderValue] = useState<string>('<20#0>')
 
   useEffect(() => {
     if (status) {
@@ -25,8 +25,8 @@ const Home = (): JSX.Element => {
   }, [status])
 
   useEffect(() => {
-    if (payload && Number(payload.toString()) !== currentSliderValue) {
-      setCurrentSliderValue(Number(payload.toString()))
+    if (payload && payload.toString() !== currentSliderValue) {
+      setCurrentSliderValue(payload.toString())
     }
   }, [payload])
 
@@ -35,8 +35,9 @@ const Home = (): JSX.Element => {
   }
 
   const setSliderValue = (value: number): void => {
-    setCurrentSliderValue(Number(Math.floor(value)));
-    publish(speedTopic, `${Math.floor(value)}`, { qos: 1 })
+    const newValue = `<20#${Math.floor(value) + 500}>`;
+    setCurrentSliderValue(newValue);
+    publish(speedTopic, newValue, { qos: 1 });
   }
 
   return (
@@ -67,7 +68,7 @@ const Home = (): JSX.Element => {
             maximumTrackTintColor="#000000"
             thumbTintColor={colors.carolinaBlue}
             onSlidingComplete={setSliderValue}
-            value={currentSliderValue}
+            value={Number(currentSliderValue.split('#')[1].split('>')[0]) - 500}
             //thumbImage={require('../../assets/WagnerFace.png')}
           />
         </View>
