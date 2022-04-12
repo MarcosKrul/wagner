@@ -29,7 +29,7 @@ export const styles = StyleSheet.create({
   },
   bottom: {
     position: 'absolute',
-    bottom: 10,
+    bottom: 20,
     right: 0,
     left: Dimensions.get('window').width / 2.9
   }

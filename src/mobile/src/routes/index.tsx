@@ -62,7 +62,7 @@ const Routes = (): JSX.Element => {
   if (loading || !retrievedMqttProps) {
     return (
       <View style={styles.container}>
-        <Image source={require('../assets/DJWagner2.png')} style={{ height: 200, width: 230 }} />
+        <Image source={require('../assets/DJWagner2.png')} style={{ height: 150, width: 180 }} />
         <Text style={styles.subtitle}>O próprio original</Text>
         <ActivityIndicator style={styles.loading} size='large' color={colors.carolinaBlue} />
       </View>

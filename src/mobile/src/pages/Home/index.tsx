@@ -66,10 +66,10 @@ const Home = (): JSX.Element => {
             maximumValue={100}
             minimumTrackTintColor={colors.cgBlue}
             maximumTrackTintColor="#000000"
-            thumbTintColor={colors.carolinaBlue}
+            //thumbTintColor={colors.carolinaBlue}
             onSlidingComplete={setSliderValue}
             value={Number(currentSliderValue.split('#')[1].split('>')[0]) - 500}
-            //thumbImage={require('../../assets/WagnerFace.png')}
+            thumbImage={require('../../assets/TruckMin.png')}
           />
         </View>
       </View>
