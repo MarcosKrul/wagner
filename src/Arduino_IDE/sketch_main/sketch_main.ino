@@ -17,8 +17,8 @@
 #define MOTOR_02_GND_PIN 12
 #define MOTOR_02_PWM_PIN 0
 
-#define BLUETOOTH_RX 4
-#define BLUETOOTH_TX 5
+#define BLUETOOTH_RX 3
+#define BLUETOOTH_TX 1
 
 #define WIFI_SSID "SSID_HERE"
 #define WIFI_PASSWORD "PASSWORD_HERE"
@@ -43,24 +43,26 @@ Wagner wagner = Wagner(
 void setup() {
 	Serial.begin(9600);
 	randomSeed(analogRead(A0));
-	wagfi.connect();
 }
 
 void loop() {
 
-/*
-	float distance_in_cm = ultrasonic.getCurrentValue();
+  /*
+	long microsec = ultrasonic.timing();
+	float distance_in_cm = ultrasonic.convert(microsec, Ultrasonic::CM);
 
+  
 	Serial.print("LOG loop -> distance_in_cm == ");
 	Serial.print(distance_in_cm);
 	Serial.println("cm");
-*/
+  */
+  
 	if (!wagfi.connected()) {
 		wagfi.reconnect();
 	}
 
 	if (bluetooth.available()) {
-		wagner.handleUARTByteReceived(UART_BLUETOOTH_ID, bluetooth.getCurrentByte());
+     wagner.handleUARTByteReceived(UART_BLUETOOTH_ID, bluetooth.getCurrentByte());
 	}
 
 	wagner.drive(100.0);

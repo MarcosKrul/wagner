@@ -32,6 +32,7 @@
 class Wagner {
 
 private:
+	byte speed;
 	int direction; 
 	Motor *motors;
 	unsigned int motors_length;
