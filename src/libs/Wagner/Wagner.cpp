@@ -5,6 +5,7 @@ Wagner::Wagner(unsigned int lm, Motor* motors) {
 	this->recalculating_route = false;
 	this->direction = 1;
 	this->decision = -1;
+	this->speed = 100;
 
 	this->motors = motors;
 	this->motors_length = lm;
@@ -68,7 +69,14 @@ void Wagner::handleProtocolStringChanged(String value) {
 
 	String code = value.substring(value.indexOf(UART_PROTOCOL_STRING_DELIMITER)+1, value.length());
 	if (code.length() == 3) {
-		int index = CONVERT_CODE_TO_ID(code.toInt());
+		int codeInteger = code.toInt();
+
+		if (codeInteger >= MIN_SPEED_DELIMITER && codeInteger <= MAX_SPEED_DELIMITER) {
+			this->setCurrentSpeed(codeInteger - MIN_SPEED_DELIMITER);
+			return;
+		}
+
+		int index = CONVERT_CODE_TO_ID(codeInteger);
 		if (index < 0 || index >= QNT_DEFAULT_ACTIONS) {
 			Serial.println("ERROR -> void Wagner::handleProtocolStringChanged(String): index out of range");
 			return;
@@ -79,6 +87,11 @@ void Wagner::handleProtocolStringChanged(String value) {
 		Serial.println("ERROR -> void Wagner::handleProtocolStringChanged(String): invalid cod");
 		return;
 	}
+}
+
+void Wagner::setCurrentSpeed(byte speed) {
+	this->current_action_changed = true;
+	this->speed = speed;
 }
 
 void Wagner::setCurrentAction(Action* action)  {
@@ -117,7 +130,7 @@ void Wagner::write() {
 		
 		analogWrite(
 			this->motors[i].getPinSpeedControl(), 
-			CONST_MAX_SPEED_VALUE * ((float)percentage/100)
+			CONST_MAX_SPEED_VALUE * ((float)percentage/100) * ((float)this->speed/100)
 		);
 	}
 
