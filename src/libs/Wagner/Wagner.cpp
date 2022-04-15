@@ -60,7 +60,7 @@ void Wagner::handleProtocolStringChanged(String value) {
 	if (direction.length() == 2) {
 		int direction_converted = direction.toInt();
 		if (CONVERT_DIRECTION_TO_ID(direction_converted)) {
-			this->direction = direction_converted;
+			this->direction = CONVERT_DIRECTION_TO_ID(direction_converted);
 		}
 	} else {
 		Serial.println("ERROR -> void Wagner::handleProtocolStringChanged(String): invalid direction");
