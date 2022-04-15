@@ -15,8 +15,8 @@ Wagner::Wagner(unsigned int lm, Motor* motors) {
 		Action(lm, new byte[lm] {100,100}),
 		Action(lm, new byte[lm] {0,100}),
 		Action(lm, new byte[lm] {100,0}),
-		Action(lm, new byte[lm] {60,100}),
-		Action(lm, new byte[lm] {100,60})
+		Action(lm, new byte[lm] {20,100}),
+		Action(lm, new byte[lm] {100,20})
 	};
 
 	this->setCurrentAction(&this->default_actions[ACTION_WALK_FORWARD]);
